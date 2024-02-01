@@ -1,43 +1,11 @@
 <template>
   <div class="containerSignupGreen">
-    <div class="imgBox boxFade z3 slideDown">
-      <img
-        class="img img_top"
-        src="https://signupui.s3.ap-northeast-2.amazonaws.com/green/sky_obj.webp"
-      />
-    </div>
-
-    <div class="imgBox boxFade z3 slideLeft">
-      <img
-        class="img img_bot_right1"
-        src="https://signupui.s3.ap-northeast-2.amazonaws.com/green/grass_right.webp"
-      />
-    </div>
-
-    <div class="imgBox boxFade z3 slideRight">
-      <img
-        class="img img_bot_left1"
-        src="https://signupui.s3.ap-northeast-2.amazonaws.com/green/grass_left.webp"
-      />
-    </div>
-    <div class="imgBox boxFade z2 expandUp">
-      <img
-        class="img img_bot_right2"
-        src="https://signupui.s3.ap-northeast-2.amazonaws.com/green/mountain_right.webp"
-      />
-    </div>
-    <div class="imgBox boxFade z2 expandUp">
-      <img
-        class="img img_bot_left2"
-        src="https://signupui.s3.ap-northeast-2.amazonaws.com/green/mountain_left.webp"
-      />
-    </div>
-
-    <div class="imgBox boxFade z1">
-      <img
-        class="img"
-        src="https://signupui.s3.ap-northeast-2.amazonaws.com/green/background.webp"
-      />
+    <div
+      v-for="(image, index) in images"
+      :key="index"
+      :class="`imgBox boxFade z${image.zIndex} ${image.animation}`"
+    >
+      <img :class="['img', image.position]" :src="image.src" />
     </div>
   </div>
 </template>
@@ -49,10 +17,44 @@ export default {
   name: "Green",
 
   setup() {
-    const data = reactive({});
+    const images = reactive([
+      {
+        src: "https://signupui.s3.ap-northeast-2.amazonaws.com/green/sky_obj.webp",
+        zIndex: 3,
+        animation: "slideDown",
+      },
+      {
+        src: "https://signupui.s3.ap-northeast-2.amazonaws.com/green/grass_right.webp",
+        zIndex: 3,
+        animation: "slideLeft",
+        position: "img_bot_right1",
+      },
+      {
+        src: "https://signupui.s3.ap-northeast-2.amazonaws.com/green/grass_left.webp",
+        zIndex: 3,
+        animation: "slideRight",
+        position: "img_bot_left1",
+      },
+      {
+        src: "https://signupui.s3.ap-northeast-2.amazonaws.com/green/mountain_right.webp",
+        zIndex: 2,
+        animation: "expandUp",
+        position: "img_bot_right2",
+      },
+      {
+        src: "https://signupui.s3.ap-northeast-2.amazonaws.com/green/mountain_left.webp",
+        zIndex: 2,
+        animation: "expandUp",
+        position: "img_bot_left2",
+      },
+      {
+        src: "https://signupui.s3.ap-northeast-2.amazonaws.com/green/background.webp",
+        zIndex: 1,
+      },
+    ]);
 
     return {
-      data,
+      images,
     };
   },
 };
@@ -63,16 +65,18 @@ export default {
   display: flex;
   width: 100vw;
   height: 100vh;
+
   .boxFade {
     width: 100%;
     height: 100%;
   }
+
   .imgBox {
     position: fixed;
     top: 0;
   }
+
   .img {
-    height: 100%;
     width: 100%;
   }
 
@@ -83,6 +87,7 @@ export default {
     animation: pulse infinite ease 2s;
     animation-delay: -1s;
   }
+
   .img_bot_left2 {
     position: fixed;
     left: -35px;
