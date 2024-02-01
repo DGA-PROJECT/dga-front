@@ -1,43 +1,44 @@
 <template>
   <div class="containerSignupGreen">
-    <div class="imgBox boxFade z2 slideDown">
+    <div class="imgBox boxFade z3 slideUp">
       <img
-        class="img img_top"
-        src="https://signupui.s3.ap-northeast-2.amazonaws.com/zoo/sky_obj.webp"
+        class="img wv1"
+        src="https://signupui.s3.ap-northeast-2.amazonaws.com/blue/firstwv.webp"
       />
     </div>
 
     <div class="imgBox boxFade z3 slideUp">
       <img
-        class="img"
-        src="https://signupui.s3.ap-northeast-2.amazonaws.com/zoo/entrance.webp"
+        class="img wv2"
+        src="https://signupui.s3.ap-northeast-2.amazonaws.com/blue/secondwv.webp"
+      />
+    </div>
+
+    <div class="imgBox boxFade z3 slideUp">
+      <img
+        class="img wv3"
+        src="https://signupui.s3.ap-northeast-2.amazonaws.com/blue/thirdwv.webp"
       />
     </div>
 
     <div class="imgBox boxFade z2 slideLeft">
       <img
-        class="img img_bot_right1"
-        src="https://signupui.s3.ap-northeast-2.amazonaws.com/zoo/animals_right.webp"
+        class="img img_top_right1"
+        src="https://signupui.s3.ap-northeast-2.amazonaws.com/blue/topRight.webp"
       />
     </div>
 
     <div class="imgBox boxFade z2 slideRight">
       <img
-        class="img img_bot_left1"
-        src="https://signupui.s3.ap-northeast-2.amazonaws.com/zoo/animals_left.webp"
-      />
-    </div>
-    <div class="imgBox boxFade z4 expandUp">
-      <img
-        class="img img_bottom"
-        src="https://signupui.s3.ap-northeast-2.amazonaws.com/zoo/animals_front.webp"
+        class="img img_top_left1"
+        src="https://signupui.s3.ap-northeast-2.amazonaws.com/blue/topLeft.webp"
       />
     </div>
 
     <div class="imgBox boxFade z1">
       <img
         class="img img_bg"
-        src="https://signupui.s3.ap-northeast-2.amazonaws.com/zoo/bg.webp"
+        src="https://signupui.s3.ap-northeast-2.amazonaws.com/blue/bg.webp"
       />
     </div>
   </div>
@@ -47,7 +48,7 @@
 import { reactive } from "vue";
 
 export default {
-  name: "Zoo",
+  name: "Blue",
 
   setup() {
     const data = reactive({});
@@ -79,41 +80,20 @@ export default {
     height: 100%;
   }
 
-  .img_bot_left1 {
-    position: fixed;
-    left: -50px;
-    bottom: -50px;
-    animation: pulse infinite ease 2s;
-    animation-delay: -1s;
-  }
-  .img_bot_left2 {
-    position: fixed;
-    left: -35px;
-    bottom: -50px;
-    animation: tossing infinite ease 2s;
-    animation-delay: -1s;
-  }
-
-  .img_bot_right1 {
-    position: fixed;
-    right: -35px;
-    bottom: -50px;
-    animation: pulse infinite ease 2s;
-    animation-delay: -2s;
-  }
-
-  .img_bot_right2 {
-    position: fixed;
-    right: -35px;
-    bottom: -50px;
-    animation: tossing infinite ease 2s;
-    animation-delay: -2s;
-  }
-
-  .img_top {
+  .img_top_left1 {
     position: fixed;
     top: -30px;
-    animation: floating infinite ease 2s;
+    left: -50px;
+    // animation: pulse infinite ease 2s;
+    animation-delay: -1s;
+  }
+
+  .img_top_right1 {
+    position: fixed;
+    right: -35px;
+    top: -30px;
+    // animation: pulse infinite ease 2s;
+    animation-delay: -2s;
   }
 
   .img_bottom {
@@ -121,6 +101,26 @@ export default {
     animation: floating infinite ease 2s;
     animation-delay: -1s;
     height: 100%;
+  }
+
+  .wv1 {
+    position: fixed;
+    top: -30;
+    animation: floating infinite ease 2s;
+  }
+
+  .wv2 {
+    position: fixed;
+    top: 0px;
+    animation: floating infinite ease 2s;
+    animation-delay: -1.5s;
+  }
+
+  .wv3 {
+    position: fixed;
+    top: 0px;
+    animation: floating infinite ease 2s;
+    animation-delay: -2.5s;
   }
 
   .z1 {
