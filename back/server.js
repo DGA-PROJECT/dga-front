@@ -11,6 +11,10 @@ app.use(cors());
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true }));
 
+/////////////////------------------------
+
+/////////////////------------------------
+
 //.env테스트
 console.log(process.env.test);
 
@@ -20,6 +24,13 @@ app.get("/test", (req, res, next) => {
 });
 
 app.post("/postest", (req, res) => {
+  console.log(req.body);
+  res.json(req.body);
+});
+
+app.post("/token", (req, res) => {
+  const customHeaderValue = req.get("Authorization");
+  console.log(customHeaderValue);
   console.log(req.body);
   res.json(req.body);
 });
