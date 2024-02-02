@@ -1,6 +1,11 @@
 <template>
   <div class="containerApp">
-    <router-view :modalState="modalState" class="router"></router-view>
+    <router-view
+      :modalState="modalState"
+      :modalFunction="modalFunction"
+      :style="style"
+      class="router"
+    ></router-view>
 
     <div class="forever">
       <button class="btn btn-primary" v-on:click="$router.push('/signup')">
@@ -11,7 +16,11 @@
         Login or Signup
       </button>
     </div>
-    <div class="alertMessage">하잉하잉</div>
+    <div class="alertMessage fadeInOut" v-if="modalState.alert">
+      <div class="content expandOpen">
+        <p class="poor">이게 메세지야</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -26,8 +35,47 @@ export default {
       test: "test data",
     });
 
+    const style = reactive({
+      test: "rgba(255,255,255,0.5)",
+      alertModal: {
+        normal: {
+          bg: "rgba(255,255,255,0.5)",
+          boxBg: "#f9f9f9",
+          border: "#0a2463",
+          box: "#7fc8f8",
+          text: "#1e1b18",
+        },
+        warn: {
+          bg: "rgba(0,0,0,0.5)",
+          boxBg: "#f9f9f9",
+          box: "#d8315b",
+          text: "#1e1b18",
+        },
+      },
+      normal: {
+        background: "rgba(255,255,255,0.5)",
+        box: "#f9f9f9",
+        boxBg: "",
+        text: "#1e1b18",
+        btn: "#0a2463",
+        btnCancel: "#7fc8f8",
+      },
+    });
+
     const modalState = reactive({
-      alert: true,
+      alert: false,
+      alertMessage: "",
+    });
+
+    const modalFunction = reactive({
+      alert: (content) => {
+        modalState.alert = true;
+        modalState.alertMessage = content;
+        setTimeout(() => {
+          modalState.alert = false;
+          modalState.alertMessage = null;
+        }, 1500);
+      },
     });
 
     const axiosTest = () =>
@@ -48,7 +96,9 @@ export default {
 
     return {
       state,
+      style,
       modalState,
+      modalFunction,
       axiosTest,
       axiosPostTest,
       goToLoginOrSignup,
@@ -61,6 +111,7 @@ export default {
 body {
   margin: 0;
   padding: 0;
+  font-family: "Nanum Gothic", sans-serif;
 }
 .containerApp {
   height: 100vh;
@@ -78,7 +129,42 @@ body {
     justify-content: center;
     top: 0;
     z-index: 10;
-    display: none;
+    background-color: v-bind("style.alertModal.normal.bg");
+    .content {
+      width: 80%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: v-bind("style.alertModal.normal.boxBg");
+      padding: 20px;
+      border-radius: 10px;
+      border-top: 3px solid v-bind("style.alertModal.normal.border");
+      border-bottom: 3px solid v-bind("style.alertModal.normal.border");
+      p {
+        margin: 0;
+        color: v-bind("style.alertModal.normal.text");
+      }
+      // animation: bounce 1 ease 1s;
+    }
+  }
+
+  .fadeInOut {
+    animation: fadeInOut 1.5s ease-in-out 1;
+  }
+
+  @keyframes fadeInOut {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  .poor {
+    font-family: "Poor Story", system-ui;
   }
 }
 </style>

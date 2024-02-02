@@ -54,7 +54,9 @@
         >Freepik</a
       >
 
-      <p>{{ props.modalState }}</p>
+      <button class="btn btn-primary" v-on:click="modalFunction.alert('안녕?')">
+        하잉
+      </button>
     </div>
   </div>
 </template>
@@ -69,12 +71,14 @@ export default {
   name: "Signup",
   components: { Green, Zoo, Blue },
   props: {
-    modalState: Object,
+    modalFunction: Object,
+    style: Object,
   },
 
-  setup() {
+  setup(props) {
+    props;
     const data = reactive({
-      toggle: "3",
+      toggle: "2",
     });
 
     //1. 토큰을 찢어서 백단에 보냄
@@ -87,6 +91,8 @@ export default {
     //                      다 저장되면 was에 보내고 was에서 user row 생성.
     //                      응답으로 닉네임, 이메일, 생일, 성별 값을 줌.
     //                      프론트에 userState를 'login'으로 바꿈
+
+    // props.modalFunction.alert("안녕?");
 
     return {
       data,
@@ -108,8 +114,6 @@ export default {
     height: 30px;
     background-color: grey;
     z-index: 10;
-    .nav_top {
-    }
   }
   .source {
     width: 100%;
@@ -119,6 +123,8 @@ export default {
     position: absolute;
     top: 100vh;
     z-index: 5;
+    background-color: v-bind("style.alertModal.normal.bg");
+    padding-top: 10px;
   }
 }
 </style>
