@@ -49,14 +49,27 @@ export default {
       }
     };
 
+    const passLogin = () => {
+      //로그인 되었을경우 동작
+      router.push("/");
+    };
+
+    const signUp = () => {
+      //회원가입 진행
+      router.push("/signup");
+    };
+    signUp;
+
     // 토큰을 백단에 보내는 함수.
     const sendToken = () => {
       const tokenObj = parsingToken();
       const idToken = tokenObj.id_token;
       const accessToken = tokenObj.access_token;
 
-      localStorage.setItem("idToken", idToken);
+      //응답 받은 데이터에서 이메일 주소를 로컬스토리지에 저장함
+      // localStorage.setItem("idToken", idToken);
       localStorage.setItem("accessToken", accessToken);
+
       axios
         .post(
           "/api/token",
@@ -70,15 +83,16 @@ export default {
           if (res.data.error) {
             throw new Error(res.data.error.message);
           } else {
-            //응답 받은 데이터에서 이메일 주소를 로컬스토리지에 저장함
-            localStorage.setItem("email", res.data.email);
-
             //신규회원일경우
             if (res.data.newbie) {
-              router.push("/signup");
+              //응답 받은 데이터에서 이메일 주소를 로컬스토리지에 저장함
+              localStorage.setItem("email", res.data.email);
+              signUp();
             } else {
+              let data = JSON.parse(res.data);
+              alert(data.message);
               //리다이렉션
-              router.push("/");
+              passLogin();
             }
           }
         });
