@@ -46,7 +46,10 @@ app.post("/token", (req, res) => {
   // 2. 없으면 없는 유저라는 응답과함꼐 이메일 주소 줌.
 
   res.json(
-    JSON.stringify({ message: `your email is : ${idTokenPayload.email}` })
+    JSON.stringify({
+      message: `your email is : ${idTokenPayload.email}`,
+      email: idTokenPayload.email,
+    })
   );
 });
 

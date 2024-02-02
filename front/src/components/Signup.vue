@@ -1,7 +1,7 @@
 <template>
   <div class="containerSignup">
     <p>{{ data.toggle }}</p>
-    <div class="testToggle">
+    <!-- <div class="testToggle">
       <input
         class="form-check-input"
         type="radio"
@@ -29,7 +29,7 @@
         v-model="data.toggle"
       />
       <label class="form-check-label" for="inlineRadio1">3</label>
-    </div>
+    </div> -->
     <Green v-if="data.toggle == '1'" />
     <Zoo v-if="data.toggle == '2'" />
     <blue v-if="data.toggle == '3'" />
@@ -53,6 +53,8 @@
         href="https://kr.freepik.com/free-vector/beach-from-the-top-in-paper-style_2499260.htm#query=beach&position=0&from_view=search&track=sph&uuid=67d445a0-92e7-4b84-b658-ba994e7b182c"
         >Freepik</a
       >
+
+      <p>{{ props.modalState }}</p>
     </div>
   </div>
 </template>
@@ -66,6 +68,9 @@ import Blue from "./signup/Blue.vue";
 export default {
   name: "Signup",
   components: { Green, Zoo, Blue },
+  props: {
+    modalState: Object,
+  },
 
   setup() {
     const data = reactive({
@@ -113,7 +118,7 @@ export default {
     align-items: center;
     position: absolute;
     top: 100vh;
-    z-index: 10;
+    z-index: 5;
   }
 }
 </style>
