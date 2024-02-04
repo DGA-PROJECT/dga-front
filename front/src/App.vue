@@ -101,6 +101,7 @@ export default {
         box: "#f9f9f9",
         boxBg: "",
         text: "#1e1b18",
+        btnText: "#f9f9f9",
         btn: "#0a2463",
         btnCancel: "#7fc8f8",
       },

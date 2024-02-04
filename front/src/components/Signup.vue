@@ -1,38 +1,44 @@
 <template>
   <div class="containerSignup">
-    <p>{{ data.toggle }}</p>
-    <!-- <div class="testToggle">
-      <input
-        class="form-check-input"
-        type="radio"
-        name="inlineRadioOptions"
-        id="inlineRadio1"
-        value="1"
-        v-model="data.toggle"
-      />
-      <label class="form-check-label" for="inlineRadio1">1</label>
-      <input
-        class="form-check-input"
-        type="radio"
-        name="inlineRadioOptions"
-        id="inlineRadio1"
-        value="2"
-        v-model="data.toggle"
-      />
-      <label class="form-check-label" for="inlineRadio1">2</label>
-      <input
-        class="form-check-input"
-        type="radio"
-        name="inlineRadioOptions"
-        id="inlineRadio1"
-        value="3"
-        v-model="data.toggle"
-      />
-      <label class="form-check-label" for="inlineRadio1">3</label>
-    </div> -->
-    <Green v-if="data.toggle == '1'" />
-    <Zoo v-if="data.toggle == '2'" />
-    <blue v-if="data.toggle == '3'" />
+    <Green v-if="stateSignup.stage == '1'" />
+    <Zoo v-if="stateSignup.stage == '2'" />
+    <blue v-if="stateSignup.stage == '3'" />
+
+    <!-- 로그인 UI -->
+    <div class="signupModal normal_bg" v-if="stateSignup.stage == 1">
+      <div class="content">
+        <div class="character">
+          <img
+            src="https://dgaui.s3.ap-northeast-2.amazonaws.com/emoji-daughter/normal.webp"
+          />
+          <div class="talk">
+            <p class="poor">닉네임을 정해주세요!</p>
+          </div>
+        </div>
+        <div class="contentBox">
+          <div class="input-group input-group-lg">
+            <span class="input-group-text noto" id="inputGroup-sizing-lg"
+              >닉네임</span
+            >
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-lg"
+            />
+          </div>
+          <div class="detail poor">
+            <p>한글 숫자만 가능해요!</p>
+            <p>8자 이하로 정해주세요.</p>
+          </div>
+        </div>
+        <div class="btn-group" role="group" aria-label="Basic example">
+          <button type="button" class="btn btn-light next">Next</button>
+          <button type="button" class="btn btn-light cancel">Cancel</button>
+        </div>
+      </div>
+    </div>
+    <!-- 로그인 UI -->
 
     <div class="source">
       <p>디자인 출처</p>
@@ -56,14 +62,20 @@
 
       <button
         class="btn btn-primary"
-        v-on:click="modalFunction.normal('안녕?')"
+        v-on:click="modalFunction.normal('노멀 모달이야')"
       >
         하잉
       </button>
-      <button class="btn btn-danger" v-on:click="modalFunction.warn('안녕?')">
+      <button
+        class="btn btn-danger"
+        v-on:click="modalFunction.warn('경고 모달이야')"
+      >
         하잉
       </button>
-      <button class="btn btn-light" v-on:click="modalFunction.success('안녕?')">
+      <button
+        class="btn btn-light"
+        v-on:click="modalFunction.success('성공 모달이야')"
+      >
         하잉
       </button>
     </div>
@@ -86,25 +98,12 @@ export default {
 
   setup(props) {
     props;
-    const data = reactive({
-      toggle: "1",
+    const stateSignup = reactive({
+      stage: "1",
     });
 
-    //1. 토큰을 찢어서 백단에 보냄
-    //2. 응답을 받아서
-    //   - 토큰이 존재한다면? -> was에서 유저정보(이메일 등등) 받아서 스토리지에 토큰 저장한 후, /로 리다이렉션
-    //   - 토큰이 없다면? -> 일단 프론트에서 access토큰 저장후, id토큰과 access 토큰을 was로 보냄
-    //                      was에서 토큰 파싱 한 후, 이메일을 응답으로 보냄.
-    //                      이메일 받고 js메모리에 저장한다음, router로 /signup으로 컴포넌트 바꿈(토큰 get에서 지우려는거임)
-    //                      첫번째 닉네임, 생일 성별 각각 blue zoo green컴포넌트에서 모달식으로 받음
-    //                      다 저장되면 was에 보내고 was에서 user row 생성.
-    //                      응답으로 닉네임, 이메일, 생일, 성별 값을 줌.
-    //                      프론트에 userState를 'login'으로 바꿈
-
-    // props.modalFunction.alert("안녕?");
-
     return {
-      data,
+      stateSignup,
     };
   },
 };
@@ -114,15 +113,72 @@ export default {
 .containerSignup {
   margin: 0;
   height: 100vh;
-  .testToggle {
-    position: fixed;
-    top: 0;
-    display: flex;
-    justify-content: flex-end;
+
+  .signupModal {
+    position: relative;
     width: 100%;
-    height: 30px;
-    background-color: grey;
+    height: 100%;
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
     z-index: 10;
+
+    .content {
+      width: 80%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      border-radius: 10px;
+      background-color: white;
+      box-shadow: 0px 0px 5px #444;
+      .character {
+        display: flex;
+        align-items: center;
+        img {
+          padding-right: 10px;
+        }
+        .talk {
+          display: flex;
+          justify-content: center;
+          border-radius: 7px;
+          background-color: v-bind("style.normalModal.btnCancel");
+
+          p {
+            padding: 10px;
+          }
+        }
+      }
+
+      .contentBox {
+        width: 100%;
+        padding: 10px;
+        .detail {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          padding: 10px;
+        }
+      }
+      .btn-group {
+        width: 100%;
+        .next {
+          width: 70%;
+          background-color: v-bind("style.normalModal.btn");
+          color: v-bind("style.normalModal.btnText");
+        }
+        .cancel {
+          background-color: v-bind("style.normalModal.btnCancel");
+          color: v-bind("style.normalModal.btnText");
+        }
+      }
+      p {
+        margin: 0;
+      }
+    }
   }
   .source {
     width: 100%;
