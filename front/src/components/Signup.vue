@@ -54,7 +54,16 @@
         >Freepik</a
       >
 
-      <button class="btn btn-primary" v-on:click="modalFunction.alert('안녕?')">
+      <button
+        class="btn btn-primary"
+        v-on:click="modalFunction.normal('안녕?')"
+      >
+        하잉
+      </button>
+      <button class="btn btn-danger" v-on:click="modalFunction.warn('안녕?')">
+        하잉
+      </button>
+      <button class="btn btn-light" v-on:click="modalFunction.success('안녕?')">
         하잉
       </button>
     </div>
@@ -78,7 +87,7 @@ export default {
   setup(props) {
     props;
     const data = reactive({
-      toggle: "2",
+      toggle: "1",
     });
 
     //1. 토큰을 찢어서 백단에 보냄
@@ -123,7 +132,7 @@ export default {
     position: absolute;
     top: 100vh;
     z-index: 5;
-    background-color: v-bind("style.alertModal.normal.bg");
+    background-color: v-bind("style.normalModal.bg");
     padding-top: 10px;
   }
 }

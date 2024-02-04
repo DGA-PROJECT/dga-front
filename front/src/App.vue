@@ -6,6 +6,7 @@
       :style="style"
       class="router"
     ></router-view>
+    <Loading v-if="state.isLoading" class="fadeInOutLoading" />
 
     <div class="forever">
       <button class="btn btn-primary" v-on:click="$router.push('/signup')">
@@ -15,10 +16,36 @@
       <button class="btn btn-primary" v-on:click="goToLoginOrSignup()">
         Login or Signup
       </button>
+
+      <button
+        class="btn btn-primary"
+        v-on:click="stateFunction.loadingFunction()"
+      >
+        로딩 테스트
+      </button>
     </div>
-    <div class="alertMessage fadeInOut" v-if="modalState.alert">
-      <div class="content expandOpen">
-        <p class="poor">이게 메세지야</p>
+    <div class="alertMessage normal_bg fadeInOut" v-if="modalState.normal">
+      <div class="content expandOpen normal">
+        <img
+          src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/normal.webp"
+        />
+        <p class="poor">{{ modalState.normalMessage }}</p>
+      </div>
+    </div>
+    <div class="alertMessage warn_bg fadeInOut" v-if="modalState.warn">
+      <div class="content expandOpen warn">
+        <img
+          src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/fail.webp"
+        />
+        <p class="poor">{{ modalState.warnMessage }}</p>
+      </div>
+    </div>
+    <div class="alertMessage success_bg fadeInOut" v-if="modalState.success">
+      <div class="content expandOpen success">
+        <img
+          src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/success.webp"
+        />
+        <p class="poor">{{ modalState.successMessage }}</p>
       </div>
     </div>
   </div>
@@ -27,16 +54,25 @@
 <script>
 import { reactive } from "vue";
 import axios from "axios";
+import Loading from "./components/Loading.vue";
 
 export default {
-  components: {},
+  components: { Loading },
   setup() {
     const state = reactive({
-      test: "test data",
+      isLoading: false,
+    });
+
+    const stateFunction = reactive({
+      loadingFunction: () => {
+        state.isLoading = true;
+        setTimeout(() => {
+          state.isLoading = false;
+        }, 3000);
+      },
     });
 
     const style = reactive({
-      test: "rgba(255,255,255,0.5)",
       alertModal: {
         normal: {
           bg: "rgba(255,255,255,0.5)",
@@ -48,12 +84,20 @@ export default {
         warn: {
           bg: "rgba(0,0,0,0.5)",
           boxBg: "#f9f9f9",
-          box: "#d8315b",
+          border: "#d8315b",
+          box: "#ff6392",
+          text: "#f9f9f9",
+        },
+        success: {
+          bg: "rgba(255,255,255,0.5)",
+          boxBg: "#f9f9f9",
+          border: "#ffe45e",
+          box: "#fff8dc",
           text: "#1e1b18",
         },
       },
-      normal: {
-        background: "rgba(255,255,255,0.5)",
+      normalModal: {
+        bg: "rgba(255,255,255,0.5)",
         box: "#f9f9f9",
         boxBg: "",
         text: "#1e1b18",
@@ -63,17 +107,37 @@ export default {
     });
 
     const modalState = reactive({
-      alert: false,
-      alertMessage: "",
+      normal: false,
+      normalMessage: "",
+      warn: false,
+      warnMessage: "",
+      success: false,
+      successMessage: "",
     });
 
     const modalFunction = reactive({
-      alert: (content) => {
-        modalState.alert = true;
-        modalState.alertMessage = content;
+      normal: (content) => {
+        modalState.normal = true;
+        modalState.normalMessage = content;
         setTimeout(() => {
-          modalState.alert = false;
-          modalState.alertMessage = null;
+          modalState.normal = false;
+          modalState.normalMessage = null;
+        }, 1500);
+      },
+      warn: (content) => {
+        modalState.warn = true;
+        modalState.warnMessage = content;
+        setTimeout(() => {
+          modalState.warn = false;
+          modalState.warnMessage = null;
+        }, 1500);
+      },
+      success: (content) => {
+        modalState.success = true;
+        modalState.successMessage = content;
+        setTimeout(() => {
+          modalState.success = false;
+          modalState.successMessage = null;
         }, 1500);
       },
     });
@@ -96,6 +160,7 @@ export default {
 
     return {
       state,
+      stateFunction,
       style,
       modalState,
       modalFunction,
@@ -120,7 +185,18 @@ body {
     width: 100%;
     height: 100%;
   }
+
+  .normal_bg {
+    background-color: v-bind("style.alertModal.normal.bg");
+  }
+  .warn_bg {
+    background-color: v-bind("style.alertModal.warn.bg");
+  }
+  .success_bg {
+    background-color: v-bind("style.alertModal.success.bg");
+  }
   .alertMessage {
+    position: relative;
     width: 100%;
     height: 100%;
     position: fixed;
@@ -129,27 +205,47 @@ body {
     justify-content: center;
     top: 0;
     z-index: 10;
-    background-color: v-bind("style.alertModal.normal.bg");
+    img {
+      position: absolute;
+      bottom: 100%;
+    }
+
     .content {
       width: 80%;
       display: flex;
       justify-content: center;
       align-items: center;
-      background-color: v-bind("style.alertModal.normal.boxBg");
       padding: 20px;
       border-radius: 10px;
-      border-top: 3px solid v-bind("style.alertModal.normal.border");
-      border-bottom: 3px solid v-bind("style.alertModal.normal.border");
       p {
         margin: 0;
-        color: v-bind("style.alertModal.normal.text");
       }
-      // animation: bounce 1 ease 1s;
+    }
+    .normal {
+      border-top: 3px solid v-bind("style.alertModal.normal.border");
+      border-bottom: 3px solid v-bind("style.alertModal.normal.border");
+      background-color: v-bind("style.alertModal.normal.box");
+      color: v-bind("style.alertModal.normal.text");
+    }
+    .warn {
+      border-top: 3px solid v-bind("style.alertModal.warn.border");
+      border-bottom: 3px solid v-bind("style.alertModal.warn.border");
+      background-color: v-bind("style.alertModal.warn.box");
+      color: v-bind("style.alertModal.warn.text");
+    }
+    .success {
+      border-top: 3px solid v-bind("style.alertModal.success.border");
+      border-bottom: 3px solid v-bind("style.alertModal.success.border");
+      background-color: v-bind("style.alertModal.success.box");
+      color: v-bind("style.alertModal.success.text");
     }
   }
 
   .fadeInOut {
     animation: fadeInOut 1.5s ease-in-out 1;
+  }
+  .fadeInOutLoading {
+    animation: fadeInOutLoading 3s ease-in-out 1;
   }
 
   @keyframes fadeInOut {
@@ -157,6 +253,21 @@ body {
       opacity: 0;
     }
     50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes fadeInOutLoading {
+    0% {
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
       opacity: 1;
     }
     100% {
