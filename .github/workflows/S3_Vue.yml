@@ -1,0 +1,43 @@
+# Workflow Name
+name: S3_Vue
+
+# main 브랜치에 push/delete 이벤트 발생시 트리거
+on:
+  push:
+    paths:
+      - 'front/**'
+  delete:
+    paths:
+      - 'front/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    # 기본 작업 경로 설정
+    defaults:
+      run:
+        working-directory: ./front
+    # Github Action Secret 에 정의한 환경변수
+    env:
+        AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        AWS_REGION: 'ap-northeast-2'
+        SOURCE_DIR: 'front/dist'
+    steps:
+      # 빌드 할 브랜치 체크
+      - name: "Checkout Branch"
+        uses: actions/checkout@v3
+        with:
+          ref: main
+      # 빌드 환경 설치
+      - name: "Install Dependencies"
+        run: npm install
+      # 빌드
+      - name: "Build"
+        run: npm run build
+      # S3 배포
+      - name: "Deploy to S3"
+        uses: jakejarvis/s3-sync-action@master
+        with:
+          args: --delete  # 이전 버전 버킷에서 삭제
