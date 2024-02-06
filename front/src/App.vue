@@ -18,7 +18,7 @@
     </div>
     <div class="alertMessage fadeInOut" v-if="modalState.alert">
       <div class="content expandOpen">
-        <p class="poor">이게 메세지야</p>
+        <p class="poor">{{ modalState.alertMessage }}</p>
       </div>
     </div>
   </div>
@@ -91,7 +91,7 @@ export default {
 
     const goToLoginOrSignup = () => {
       window.location.href =
-        "https://test-dom.auth.ap-northeast-2.amazoncognito.com/login?response_type=token&client_id=6crfr295su16kvf3uta0t29vi9&redirect_uri=http://localhost:8080/success";
+        "https://bamdom-dom.auth.ap-northeast-2.amazoncognito.com/login?response_type=token&client_id=1i3jgpcnaf4e29pbe1l723q3ij&redirect_uri=https://test.brokennose.shop/success";
     };
 
     return {

@@ -54,7 +54,10 @@
         >Freepik</a
       >
 
-      <button class="btn btn-primary" v-on:click="modalFunction.alert('안녕?')">
+      <button
+        class="btn btn-primary"
+        v-on:click="modalFunction.alert('바보야')"
+      >
         하잉
       </button>
     </div>
