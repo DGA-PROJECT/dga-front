@@ -11,8 +11,12 @@ import router from "../router";
 
 export default {
   name: "Success",
+  props: {
+    modalFunction: Object,
+    style: Object,
+  },
 
-  setup() {
+  setup(props) {
     const data = reactive({});
 
     //토큰 파싱 및 객체화 함수
@@ -49,56 +53,58 @@ export default {
       }
     };
 
-    const passLogin = () => {
+    const passLogin = (email) => {
       //로그인 되었을경우 동작
+      props.modalFunction.normal(`${email}으로 이미 가입 되어있어요.`);
       router.push("/");
     };
 
-    const signUp = () => {
+    const goToSignUp = (email) => {
       //회원가입 진행
+      //응답 받은 데이터에서 이메일 주소를 로컬스토리지에 저장함 (할지말지)
+      localStorage.setItem("email", email);
+      //리다이렉션
       router.push("/signup");
     };
-    signUp;
 
     // 토큰을 백단에 보내는 함수.
-    const sendToken = () => {
+    const checkNewbie = () => {
       const tokenObj = parsingToken();
       const idToken = tokenObj.id_token;
       const accessToken = tokenObj.access_token;
 
-      //응답 받은 데이터에서 이메일 주소를 로컬스토리지에 저장함
-      // localStorage.setItem("idToken", idToken);
+      //토큰 저장
+      localStorage.setItem("idToken", idToken);
       localStorage.setItem("accessToken", accessToken);
 
+      //먼저 백단으로 해당 유저가 있는지 체크
       axios
         .post(
-          "/api/token",
-          { idToken: idToken },
+          "/api/checknewbie",
+          { accessToken: accessToken },
           {
-            headers: { Authorization: accessToken },
+            headers: { Authorization: idToken },
           },
           { withCredentials: true }
         )
         .then((res) => {
-          if (res.data.error) {
+          // const response = JSON.parse(res.data);
+          const response = JSON.parse(res.data);
+          if (response.error) {
             throw new Error(res.data.error.message);
           } else {
             //신규회원일경우
-            if (res.data.newbie) {
-              //응답 받은 데이터에서 이메일 주소를 로컬스토리지에 저장함
-              localStorage.setItem("email", res.data.email);
-              signUp();
+            if (response.newbie) {
+              goToSignUp(response.email);
             } else {
-              let data = JSON.parse(res.data);
-              alert(data.message);
-              //리다이렉션
-              passLogin();
+              // 이미 있는 유저일경우
+              passLogin(response.email);
             }
           }
         });
     };
 
-    sendToken();
+    checkNewbie();
 
     return {
       data,

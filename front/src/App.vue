@@ -1,5 +1,6 @@
 <template>
   <div class="containerApp">
+    <p>mode : {{ state.mode }}</p>
     <router-view
       :modalState="modalState"
       :modalFunction="modalFunction"
@@ -19,12 +20,43 @@
 
       <button
         class="btn btn-primary"
-        v-on:click="stateFunction.loadingFunction()"
+        v-on:click="
+          [
+            stateFunction.loadingFunctionStart(),
+            stateFunction.loadingFunctionEnd(),
+          ]
+        "
       >
         로딩 테스트
       </button>
+
+      <button class="btn btn-danger" v-on:click="axiosPostTest()">
+        백단 테스트
+      </button>
+
+      <div class="alert">
+        <button
+          class="btn btn-primary"
+          v-on:click="modalFunction.normal('노멀 모달이야')"
+        >
+          normal alert
+        </button>
+        <button
+          class="btn btn-danger"
+          v-on:click="modalFunction.warn('경고 모달이야')"
+        >
+          warn alert
+        </button>
+        <button
+          class="btn btn-light"
+          v-on:click="modalFunction.success('성공 모달이야')"
+        >
+          success alert
+        </button>
+      </div>
     </div>
 
+    <!-- alert모달들 -->
     <div class="alertMessage normal_bg fadeInOut" v-if="modalState.normal">
       <div class="content expandOpen normal">
         <img
@@ -49,6 +81,8 @@
         <p class="poor">{{ modalState.successMessage }}</p>
       </div>
     </div>
+
+    <!-- alert모달들 끝 -->
   </div>
 </template>
 
@@ -61,12 +95,15 @@ export default {
   components: { Loading },
   setup() {
     const state = reactive({
+      mode: process.env.NODE_ENV == "development" ? "dev" : "production",
       isLoading: false,
     });
 
     const stateFunction = reactive({
-      loadingFunction: () => {
+      loadingFunctionStart: () => {
         state.isLoading = true;
+      },
+      loadingFunctionEnd: () => {
         setTimeout(() => {
           state.isLoading = false;
         }, 3000);
@@ -156,11 +193,16 @@ export default {
     };
 
     const goToLoginOrSignup = () => {
-      window.location.href =
-        "https://bam-dom.auth.ap-northeast-2.amazoncognito.com/login?response_type=token&client_id=1i3jgpcnaf4e29pbe1l723q3ij&redirect_uri=https://test.brokennose.shop/success";
+      // 개발 모드일 경우
+      if (process.env.NODE_ENV == "development") {
+        window.location.href =
+          "https://test-dom.auth.ap-northeast-2.amazoncognito.com/login?response_type=token&client_id=6crfr295su16kvf3uta0t29vi9&redirect_uri=http://localhost:8080/success";
+      } else {
+        // 배포 모드일 경우
+        window.location.href =
+          "https://bam-dom.auth.ap-northeast-2.amazoncognito.com/login?response_type=token&client_id=1i3jgpcnaf4e29pbe1l723q3ij&redirect_uri=https://test.brokennose.shop/success";
+      }
     };
-
-    //하이
 
     return {
       state,
@@ -188,6 +230,12 @@ body {
   .grass {
     width: 100%;
     height: 100%;
+  }
+
+  .alert {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
 
   .normal_bg {
@@ -280,6 +328,10 @@ body {
   }
   .poor {
     font-family: "Poor Story", system-ui;
+  }
+
+  .test {
+    display: flex;
   }
 }
 </style>
