@@ -91,7 +91,7 @@ export default {
 
     const goToLoginOrSignup = () => {
       window.location.href =
-        "https://bamdom-dom.auth.ap-northeast-2.amazoncognito.com/login?response_type=token&client_id=1i3jgpcnaf4e29pbe1l723q3ij&redirect_uri=https://test.brokennose.shop/success";
+        "https://bam-dom.auth.ap-northeast-2.amazoncognito.com/login?response_type=token&client_id=1i3jgpcnaf4e29pbe1l723q3ij&redirect_uri=https://test.brokennose.shop/success";
     };
 
     //하이
