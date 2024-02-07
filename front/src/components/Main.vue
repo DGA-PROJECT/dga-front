@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>test web</h1>
+    <h1>main web</h1>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 import { reactive } from "vue";
 
 export default {
-  name: "Test",
+  name: "Main",
 
   setup() {
     const data = reactive({});
