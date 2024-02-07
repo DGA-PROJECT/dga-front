@@ -78,30 +78,39 @@ export default {
       localStorage.setItem("accessToken", accessToken);
 
       //먼저 백단으로 해당 유저가 있는지 체크
-      axios
-        .post(
-          "/api/checknewbie",
-          { accessToken: accessToken },
-          {
-            headers: { Authorization: idToken },
-          },
-          { withCredentials: true }
-        )
-        .then((res) => {
-          // const response = JSON.parse(res.data);
-          const response = JSON.parse(res.data);
-          if (response.error) {
-            throw new Error(res.data.error.message);
-          } else {
-            //신규회원일경우
-            if (response.newbie) {
-              goToSignUp(response.email);
+
+      try {
+        axios
+          .post(
+            "/api/checknewbie",
+            { accessToken: accessToken },
+            {
+              headers: { Authorization: idToken },
+            },
+            { withCredentials: true }
+          )
+          .then((res) => {
+            // const response = JSON.parse(res.data);
+            const response = JSON.parse(res.data);
+            if (response.error) {
+              throw new Error(res.data.error.message);
             } else {
-              // 이미 있는 유저일경우
-              passLogin(response.email);
+              //신규회원일경우
+              if (response.newbie) {
+                console.log(response.newbie);
+                console.log(response.email);
+                goToSignUp(response.email);
+              } else {
+                // 이미 있는 유저일경우
+                console.log(response.email);
+
+                passLogin(response.email);
+              }
             }
-          }
-        });
+          });
+      } catch (err) {
+        console.log(err.message);
+      }
     };
 
     checkNewbie();

@@ -32,8 +32,8 @@ function checkNicknameExists(dbArray, targetNickname) {
 console.log(process.env.test);
 
 //axios테스트
-app.get("/test", (req, res, next) => {
-  res.json("data from back");
+app.get("/testCheckUser", (req, res, next) => {
+  res.json(JSON.stringify(testDb));
 });
 
 app.post("/postest", (req, res) => {
@@ -55,16 +55,17 @@ app.post("/checknewbie", (req, res) => {
     console.log(idTokenPayload);
 
     const userEmail = idTokenPayload.email;
-    console.log(userEmail, "여기야");
     //얘를 이제 db랑 상호작용
     // 1. 유저가 이미 있으면 이미 가입된 유저라는 응답
     // 2. 없으면 없는 유저라는 응답과함꼐 이메일 주소 줌.
 
     if (checkEmailExists(testDb, userEmail)) {
       // 이미 유저가 존재하는 경우
-      res.json({
-        email: userEmail,
-      });
+      res.json(
+        JSON.stringify({
+          email: userEmail,
+        })
+      );
     } else {
       //뉴비인경우
       let answer = {
@@ -76,7 +77,7 @@ app.post("/checknewbie", (req, res) => {
 
     //여기까진 test db array로 테스트한거임
   } catch (err) {
-    res.json(JSON.stringify(err));
+    res.status(500).json(JSON.stringify({ error: err.message }));
   }
 });
 
@@ -95,7 +96,7 @@ app.post("/checkusedNickname", (req, res) => {
     const userEmail = idTokenPayload.email;
 
     console.log(nickname);
-    if (checkEmailExists(testDb, nickname)) {
+    if (checkNicknameExists(testDb, nickname)) {
       // 이미 사용중인 닉네임인 경우
       let answer = {
         isExist: true,
@@ -113,7 +114,7 @@ app.post("/checkusedNickname", (req, res) => {
 
     //여기까진 test db array로 테스트한거임
   } catch (err) {
-    res.json(JSON.stringify(err));
+    res.status(500).json(JSON.stringify({ error: err.message }));
   }
 });
 
@@ -129,28 +130,34 @@ app.post("/signup", (req, res) => {
     console.log(idToken);
 
     const userEmail = idTokenPayload.email;
+
+    console.log(req.body);
+    const nickname = req.body.signupUserInfo.nickname;
+    const birthdate = req.body.signupUserInfo.birthdate;
     //얘를 이제 db랑 상호작용
     // 1. 유저가 이미 있으면 이미 가입된 유저라는 응답
     // 2. 없으면 없는 유저라는 응답과함꼐 이메일 주소 줌.
 
     if (checkEmailExists(testDb, userEmail)) {
       // 이미 유저가 존재하는 경우
-      res.json(
-        JSON.stringify({
-          message: `your email is : ${idTokenPayload.email}`,
-          email: idTokenPayload.email,
-        })
-      );
+      res.status(400).json(JSON.stringify({ error: "user is already exist" }));
+    } else if (checkNicknameExists(testDb, nickname)) {
+      res
+        .status(400)
+        .json(JSON.stringify({ error: "nickname is already exist" }));
     } else {
-      //뉴비인경우
-      let answer = {
-        newbie: true,
+      testDb.push({
         email: userEmail,
-      };
-      res.json(JSON.stringify(answer));
+        nickname: nickname,
+        birthdate: birthdate,
+      });
+
+      res
+        .status(200)
+        .json(JSON.stringify({ message: `welcome Mr. ${nickname}` }));
     }
   } catch (err) {
-    res.json(JSON.stringify(err));
+    res.status(500).json(JSON.stringify({ error: err.message }));
   }
 });
 

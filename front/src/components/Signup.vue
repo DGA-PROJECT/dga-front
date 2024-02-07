@@ -26,7 +26,7 @@
               class="form-control"
               aria-label="Sizing example input"
               aria-describedby="inputGroup-sizing-lg"
-              v-model="userInfo.nickname"
+              v-model="chosenInfo.nickname"
             />
           </div>
           <div class="detail poor">
@@ -72,7 +72,7 @@
           <div class="datePicker poor">
             <select
               class="form-select form-select-lg year"
-              v-model="chosenInfo.birthDate.year"
+              v-model="chosenInfo.birthdate.year"
               size="5"
             >
               <option selected class="optionTitle">년</option>
@@ -87,7 +87,7 @@
             <select
               class="form-select form-select-lg month"
               aria-label="Large select example"
-              v-model="chosenInfo.birthDate.month"
+              v-model="chosenInfo.birthdate.month"
               size="5"
             >
               <option selected class="optionTitle">월</option>
@@ -102,7 +102,7 @@
             <select
               class="form-select form-select-lg date"
               aria-label="Large select example"
-              v-model="chosenInfo.birthDate.date"
+              v-model="chosenInfo.birthdate.date"
               size="5"
             >
               <option selected class="optionTitle">일</option>
@@ -118,25 +118,32 @@
           <div class="detail poor">
             <p
               v-if="
-                chosenInfo.birthDate.year !== '년' &&
-                chosenInfo.birthDate.month !== '월' &&
-                chosenInfo.birthDate.date !== '일'
+                chosenInfo.birthdate.year !== '년' &&
+                chosenInfo.birthdate.month !== '월' &&
+                chosenInfo.birthdate.date !== '일'
               "
             >
               {{
-                `${chosenInfo.birthDate.year}년 - ${chosenInfo.birthDate.month}월 - ${chosenInfo.birthDate.date}일`
+                `${chosenInfo.birthdate.year}년 - ${chosenInfo.birthdate.month}월 - ${chosenInfo.birthdate.date}일`
               }}
             </p>
-            <p v-if="chosenInfo.birthDate.year !== '년'">
-              당신은 {{ currentYear - chosenInfo.birthDate.year }}살 이시군요!
+            <p v-if="chosenInfo.birthdate.year !== '년'">
+              당신은 {{ currentYear - chosenInfo.birthdate.year }}살 이시군요!
             </p>
           </div>
         </div>
         <div class="btn-group" role="group" aria-label="Basic example">
           <button
             type="button"
+            class="btn btn-light pre"
+            v-on:click="changeStage('nicknamePre')"
+          >
+            Pre
+          </button>
+          <button
+            type="button"
             class="btn btn-light next"
-            v-on:click="checkBirthDate()"
+            v-on:click="checkBirthdate()"
           >
             Next
           </button>
@@ -167,7 +174,7 @@
             <h5>닉네임은 '{{ chosenInfo.nickname }}'입니다.</h5>
             <h5>
               저는 '{{
-                `${chosenInfo.birthDate.year}년 - ${chosenInfo.birthDate.month}월 - ${chosenInfo.birthDate.date}일`
+                `${chosenInfo.birthdate.year}년 - ${chosenInfo.birthdate.month}월 - ${chosenInfo.birthdate.date}일`
               }}'에 태어났어요.
             </h5>
           </div>
@@ -179,10 +186,17 @@
         <div class="btn-group" role="group" aria-label="Basic example">
           <button
             type="button"
-            class="btn btn-light next"
-            v-on:click="checkNickname()"
+            class="btn btn-light pre"
+            v-on:click="changeStage('birthdate')"
           >
-            Next
+            Pre
+          </button>
+          <button
+            type="button"
+            class="btn btn-light next"
+            v-on:click="signUp()"
+          >
+            Confirm
           </button>
           <button
             type="button"
@@ -223,6 +237,8 @@
 <script>
 import { reactive } from "vue";
 import axios from "axios";
+import router from "../router";
+
 import Green from "./signup/Green.vue";
 import Zoo from "./signup/Zoo.vue";
 import Blue from "./signup/Blue.vue";
@@ -243,7 +259,7 @@ export default {
 
     const chosenInfo = reactive({
       nickname: null,
-      birthDate: {
+      birthdate: {
         year: "년",
         month: "월",
         date: "일",
@@ -268,6 +284,12 @@ export default {
         setTimeout(() => {
           stateSignup.stage = stageName;
         }, 1000);
+      } else if (stageName == "nicknamePre") {
+        stateSignup.stage = null;
+        stateSignup.stageBg = "nickname";
+        setTimeout(() => {
+          stateSignup.stage = "nickname";
+        }, 1000);
       } else {
         stateSignup.stageBg = stageName;
         stateSignup.stage = null;
@@ -279,23 +301,18 @@ export default {
 
     changeStage("nickname");
 
-    const userInfo = reactive({
-      nickname: null,
-      birthdate: null,
-    });
-
     const checkNickname = () => {
       const idToken = localStorage.getItem("idToken");
       const accessToken = localStorage.getItem("accessToken");
       const regex = /^[가-힣0-9]{3,8}$/;
-      if (!regex.test(userInfo.nickname)) {
+      if (!regex.test(chosenInfo.nickname)) {
         props.modalFunction.warn("닉네임 형식에 맞게 적어주세요");
       } else {
         //db에 있는 닉네임인지 체크후,
         axios
           .post(
             "/api/checkUsedNickname",
-            { accessToken: accessToken, nickname: userInfo.nickname },
+            { accessToken: accessToken, nickname: chosenInfo.nickname },
             {
               headers: { Authorization: idToken },
             },
@@ -331,61 +348,82 @@ export default {
 
       const dateObject = new Date(year, month - 1, day);
 
-      const currentDate = new Date();
+      const currentdate = new Date();
 
       // 현재 날짜보다 이전 또는 같은 경우에만 유효한 것으로 간주
       const isValid =
         dateObject.getFullYear() === year &&
         dateObject.getMonth() === month - 1 &&
         dateObject.getDate() === day &&
-        dateObject <= currentDate;
+        dateObject <= currentdate;
 
       return isValid;
     }
 
-    const checkBirthDate = () => {
-      const date = `${chosenInfo.birthDate.year}-${chosenInfo.birthDate.month}-${chosenInfo.birthDate.date}`;
+    const checkBirthdate = () => {
+      const date = `${chosenInfo.birthdate.year}-${chosenInfo.birthdate.month}-${chosenInfo.birthdate.date}`;
 
       const isDateValid = isValidDate(date);
       if (isDateValid) {
         //여기서 다음페이지 넘기기
         changeStage("confirm");
       } else {
-        props.modalFunction.warn(
-          `${date} 날짜는 없는날짜거나 미래의 날짜입니다ㅠ`
-        );
+        props.modalFunction.warn(`${date} 날짜는 불가능한 날짜입니다ㅠ`);
       }
     };
 
     const signUp = () => {
-      const idToken = localStorage.getItem(idToken);
-      const accessToken = localStorage.getItem(accessToken);
+      const idToken = localStorage.getItem("idToken");
+      const accessToken = localStorage.getItem("accessToken");
       //백단에 넣어서 db에 row 추가
-      axios
-        .post(
-          "/api/signup",
-          { accessToken: accessToken },
-          {
-            headers: { Authorization: idToken },
-          },
-          { withCredentials: true }
-        )
-        .then((res) => {
-          const response = JSON.parse(res.data);
-          console.log(response);
-        });
-    };
 
-    signUp;
+      const birthdateString = `${chosenInfo.birthdate.year}-${chosenInfo.birthdate.month}-${chosenInfo.birthdate.date}`;
+
+      const signupUserInfo = {
+        nickname: chosenInfo.nickname,
+        birthdate: birthdateString,
+      };
+
+      const regexNickname = /^[가-힣0-9]{3,8}$/;
+      if (!regexNickname.test(signupUserInfo.nickname)) {
+        props.modalFunction.warn(`닉네임 다시 정해주세요.`);
+      } else if (!isValidDate(signupUserInfo.birthdate)) {
+        props.modalFunction.warn(`생일이 이상해요.`);
+      } else {
+        axios
+          .post(
+            "/api/signup",
+            { accessToken: accessToken, signupUserInfo: signupUserInfo },
+            {
+              headers: { Authorization: idToken },
+            },
+            { withCredentials: true }
+          )
+          .then((res) => {
+            if (res.status == 200) {
+              props.modalFunction.success(
+                `${signupUserInfo.nickname}님! 환영합니다.`
+              );
+              router.push("/");
+            }
+            const response = JSON.parse(res.data);
+            console.log(response);
+          })
+          .catch((err) => {
+            alert(err.message);
+          });
+      }
+    };
 
     return {
       stateSignup,
-      userInfo,
-      dateOptions,
       chosenInfo,
+      dateOptions,
       currentYear,
       checkNickname,
-      checkBirthDate,
+      checkBirthdate,
+      changeStage,
+      signUp,
     };
   },
 };
@@ -484,13 +522,23 @@ export default {
       }
       .btn-group {
         width: 100%;
+        height: 50px;
+
+        .pre {
+          width: 20%;
+          background-color: v-bind("style.normalModal.btnCancel");
+          color: v-bind("style.normalModal.btnText");
+        }
 
         .next {
-          width: 70%;
+          width: 50%;
+
           background-color: v-bind("style.normalModal.btn");
           color: v-bind("style.normalModal.btnText");
         }
         .cancel {
+          width: 30%;
+
           background-color: v-bind("style.normalModal.btnCancel");
           color: v-bind("style.normalModal.btnText");
         }

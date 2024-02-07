@@ -10,6 +10,9 @@
     <Loading v-if="state.isLoading" class="fadeInOutLoading" />
 
     <div class="forever">
+      <button class="btn btn-primary" v-on:click="testUserDbCheck()">
+        유저 db체크
+      </button>
       <button class="btn btn-primary" v-on:click="$router.push('/signup')">
         signup component
       </button>
@@ -34,7 +37,7 @@
         백단 테스트
       </button>
 
-      <div class="alert">
+      <div class="alertBtns">
         <button
           class="btn btn-primary"
           v-on:click="modalFunction.normal('노멀 모달이야')"
@@ -181,11 +184,6 @@ export default {
       },
     });
 
-    const axiosTest = () =>
-      axios.get("/api/test").then((res) => {
-        alert(res.data);
-      });
-
     const axiosPostTest = () => {
       axios.post("/api/postest", { data: "data" }).then((res) => {
         alert(JSON.stringify(res.data));
@@ -204,15 +202,21 @@ export default {
       }
     };
 
+    const testUserDbCheck = () => {
+      axios.get("/api/testCheckUser").then((res) => {
+        alert(res.data);
+      });
+    };
+
     return {
       state,
       stateFunction,
       style,
       modalState,
       modalFunction,
-      axiosTest,
       axiosPostTest,
       goToLoginOrSignup,
+      testUserDbCheck,
     };
   },
 };
@@ -232,7 +236,15 @@ body {
     height: 100%;
   }
 
-  .alert {
+  .forever {
+    display: flex;
+    flex-direction: column;
+    button {
+      margin: 10px;
+    }
+  }
+
+  .alertBtns {
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -271,6 +283,7 @@ body {
       border-radius: 10px;
       p {
         margin: 0;
+        text-align: center;
       }
     }
     .normal {
