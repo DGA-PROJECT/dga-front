@@ -311,7 +311,7 @@ export default {
         //db에 있는 닉네임인지 체크후,
         axios
           .post(
-            "/api/checkUsedNickname",
+            "/api/checkUsednickname",
             { accessToken: accessToken, nickname: chosenInfo.nickname },
             {
               headers: { Authorization: idToken },

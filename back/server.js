@@ -81,7 +81,7 @@ app.post("/checknewbie", (req, res) => {
   }
 });
 
-app.post("/checkusedNickname", (req, res) => {
+app.post("/checkusednickname", (req, res) => {
   try {
     const idToken = req.get("Authorization");
     const accessToken = req.body.accessToken;
@@ -89,8 +89,6 @@ app.post("/checkusedNickname", (req, res) => {
 
     const idTokenObj = tokenFunction.getPureTokenValues(idToken);
     const accessTokenObj = tokenFunction.getPureTokenValues(accessToken);
-    // console.log(idTokenObj);
-    // console.log(accessTokenObj);
     const idTokenPayload = JSON.parse(idTokenObj.payload);
 
     const userEmail = idTokenPayload.email;
