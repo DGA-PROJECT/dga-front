@@ -52,3 +52,5 @@ jobs:
         run: |
           aws cloudfront create-invalidation \
             --distribution-id $CLOUD_FRONT_ID --paths "/*"
+
+            
