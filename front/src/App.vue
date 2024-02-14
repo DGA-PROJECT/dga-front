@@ -1,91 +1,126 @@
 <template>
   <div class="containerApp">
-    <p>mode : {{ state.mode }}</p>
-    <router-view
-      :modalState="modalState"
-      :modalFunction="modalFunction"
-      :style="style"
-      class="router"
-    ></router-view>
-    <Loading v-if="state.isLoading" class="fadeInOutLoading" />
+    <nav class="navTop">
+      <i class="fa-solid fa-right-from-bracket"></i>
+    </nav>
 
-    <div class="forever">
-      <button class="btn btn-primary" v-on:click="testUserDbCheck()">
-        유저 db체크
-      </button>
-      <button class="btn btn-primary" v-on:click="$router.push('/signup')">
-        signup component
-      </button>
+    <div class="bg">
+      <img
+        class="bgImg"
+        src="https://dgafrontui.s3.ap-northeast-2.amazonaws.com/mainui/background1.jpg"
+        alt=""
+      />
+      <div class="coverBg"></div>
+    </div>
 
-      <button class="btn btn-primary" v-on:click="goToLoginOrSignup()">
-        Login or Signup
-      </button>
+    <div class="boxTop">
+      <div class="highLight"></div>
+    </div>
 
-      <button
-        class="btn btn-primary"
-        v-on:click="
-          [
-            stateFunction.loadingFunctionStart(),
-            stateFunction.loadingFunctionEnd(),
-          ]
-        "
-      >
-        로딩 테스트
-      </button>
+    <div class="boxContent">
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+    </div>
+    <!-- alert모달들 끝 -->
+    <div class="dev">
+      <p>mode : {{ state.mode }}</p>
+      <router-view
+        :modalState="modalState"
+        :modalFunction="modalFunction"
+        :style="style"
+        class="router"
+      ></router-view>
+      <Loading v-if="state.isLoading" class="fadeInOutLoading" />
 
-      <button class="btn btn-danger" v-on:click="axiosPostTest()">
-        백단 테스트
-      </button>
+      <div class="forever">
+        <button class="btn btn-primary" v-on:click="testUserDbCheck()">
+          유저 db체크
+        </button>
+        <button class="btn btn-primary" v-on:click="$router.push('/signup')">
+          signup component
+        </button>
 
-      <div class="alertBtns">
+        <button class="btn btn-primary" v-on:click="goToLoginOrSignup()">
+          Login or Signup
+        </button>
+
         <button
           class="btn btn-primary"
-          v-on:click="modalFunction.normal('노멀 모달이야')"
+          v-on:click="
+            [
+              stateFunction.loadingFunctionStart(),
+              stateFunction.loadingFunctionEnd(),
+            ]
+          "
         >
-          normal alert
+          로딩 테스트
         </button>
-        <button
-          class="btn btn-danger"
-          v-on:click="modalFunction.warn('경고 모달이야')"
-        >
-          warn alert
-        </button>
-        <button
-          class="btn btn-light"
-          v-on:click="modalFunction.success('성공 모달이야')"
-        >
-          success alert
-        </button>
-      </div>
-    </div>
 
-    <!-- alert모달들 -->
-    <div class="alertMessage normal_bg fadeInOut" v-if="modalState.normal">
-      <div class="content expandOpen normal">
-        <img
-          src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/normal.webp"
-        />
-        <p class="poor">{{ modalState.normalMessage }}</p>
-      </div>
-    </div>
-    <div class="alertMessage warn_bg fadeInOut" v-if="modalState.warn">
-      <div class="content expandOpen warn">
-        <img
-          src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/fail.webp"
-        />
-        <p class="poor">{{ modalState.warnMessage }}</p>
-      </div>
-    </div>
-    <div class="alertMessage success_bg fadeInOut" v-if="modalState.success">
-      <div class="content expandOpen success">
-        <img
-          src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/success.webp"
-        />
-        <p class="poor">{{ modalState.successMessage }}</p>
-      </div>
-    </div>
+        <button class="btn btn-danger" v-on:click="axiosPostTest()">
+          백단 테스트
+        </button>
 
-    <!-- alert모달들 끝 -->
+        <div class="alertBtns">
+          <button
+            class="btn btn-primary"
+            v-on:click="modalFunction.normal('노멀 모달이야')"
+          >
+            normal alert
+          </button>
+          <button
+            class="btn btn-danger"
+            v-on:click="modalFunction.warn('경고 모달이야')"
+          >
+            warn alert
+          </button>
+          <button
+            class="btn btn-light"
+            v-on:click="modalFunction.success('성공 모달이야')"
+          >
+            success alert
+          </button>
+        </div>
+      </div>
+
+      <!-- alert모달들 -->
+      <div
+        class="alertMessage normal_bg fadeInOutLoading"
+        v-if="modalState.normal"
+      >
+        <div class="content expandOpen normal">
+          <img
+            src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/normal.webp"
+          />
+          <p class="poor">{{ modalState.normalMessage }}</p>
+        </div>
+      </div>
+      <div class="alertMessage warn_bg fadeInOutLoading" v-if="modalState.warn">
+        <div class="content expandOpen warn">
+          <img
+            src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/fail.webp"
+          />
+          <p class="poor">{{ modalState.warnMessage }}</p>
+        </div>
+      </div>
+      <div
+        class="alertMessage success_bg fadeInOutLoading"
+        v-if="modalState.success"
+      >
+        <div class="content expandOpen success">
+          <img
+            class="fadeInOutLoading"
+            src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/success.webp"
+          />
+          <p class="poor">{{ modalState.successMessage }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -109,7 +144,7 @@ export default {
       loadingFunctionEnd: () => {
         setTimeout(() => {
           state.isLoading = false;
-        }, 3000);
+        }, 2000);
       },
     });
 
@@ -146,6 +181,18 @@ export default {
         btn: "#0a2463",
         btnCancel: "#7fc8f8",
       },
+      colors: {
+        blue4: "#0a2463",
+        blue3: "#3e92cc",
+        blue2: "#5aa9e6",
+        blue1: "#7fc8f8",
+        red2: "#d8315b",
+        red1: "#ff6392",
+        yellow1: "#ffe45e",
+        white2: "#fffaff",
+        white1: "#f9f9f9",
+        black1: "#1e1b18",
+      },
     });
 
     const modalState = reactive({
@@ -164,7 +211,7 @@ export default {
         setTimeout(() => {
           modalState.normal = false;
           modalState.normalMessage = null;
-        }, 1500);
+        }, 2000);
       },
       warn: (content) => {
         modalState.warn = true;
@@ -172,7 +219,7 @@ export default {
         setTimeout(() => {
           modalState.warn = false;
           modalState.warnMessage = null;
-        }, 1500);
+        }, 2000);
       },
       success: (content) => {
         modalState.success = true;
@@ -180,7 +227,7 @@ export default {
         setTimeout(() => {
           modalState.success = false;
           modalState.successMessage = null;
-        }, 1500);
+        }, 2000);
       },
     });
 
@@ -198,12 +245,12 @@ export default {
       } else {
         // 배포 모드일 경우
         window.location.href =
-          "https://bam-dom.auth.ap-northeast-2.amazoncognito.com/login?response_type=token&client_id=1i3jgpcnaf4e29pbe1l723q3ij&redirect_uri=https://test.brokennose.shop/success";
+          "https://bam-dom.auth.ap-northeast-2.amazoncognito.com/login?response_type=token&client_id=1i3jgpcnaf4e29pbe1l723q3ij&redirect_uri=https://www.daddygo.vacations/success";
       }
     };
 
     const testUserDbCheck = () => {
-      axios.get("/api/testCheckUser").then((res) => {
+      axios.get("/api/testget").then((res) => {
         alert(res.data);
       });
     };
@@ -231,23 +278,69 @@ body {
 .containerApp {
   height: 100vh;
   padding: 0;
-  .grass {
-    width: 100%;
-    height: 100%;
-  }
-
-  .forever {
-    display: flex;
-    flex-direction: column;
-    button {
-      margin: 10px;
+  .bg {
+    .bgImg {
+      position: fixed;
+      top: 0;
+      left: -50vw;
+      display: flex;
+      justify-content: center;
+      width: 200vw;
+      z-index: -2;
+    }
+    .coverBg {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      height: 60vh;
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: -1;
     }
   }
 
-  .alertBtns {
+  .navTop {
     width: 100%;
+    position: fixed;
+    top: 0;
+    height: 30px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    background-color: red;
+    i {
+    }
+  }
+  .boxTop {
+    position: absolute;
+    top: 300px;
+    .highLight {
+    }
+  }
+  .boxContent {
+    .blank {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  .dev {
+    .grass {
+      width: 100%;
+      height: 100%;
+    }
+
+    .forever {
+      display: flex;
+      flex-direction: column;
+      button {
+        margin: 10px;
+      }
+    }
+
+    .alertBtns {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
   }
 
   .normal_bg {
@@ -269,10 +362,6 @@ body {
     justify-content: center;
     top: 0;
     z-index: 10;
-    img {
-      position: absolute;
-      bottom: 100%;
-    }
 
     .content {
       width: 80%;
@@ -281,6 +370,10 @@ body {
       align-items: center;
       padding: 20px;
       border-radius: 10px;
+      img {
+        position: absolute;
+        bottom: 100%;
+      }
       p {
         margin: 0;
         text-align: center;
@@ -310,7 +403,7 @@ body {
     animation: fadeInOut 1.5s ease-in-out 1;
   }
   .fadeInOutLoading {
-    animation: fadeInOutLoading 3s ease-in-out 1;
+    animation: fadeInOutLoading 2s ease-in-out 1;
   }
 
   @keyframes fadeInOut {
