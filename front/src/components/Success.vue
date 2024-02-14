@@ -53,9 +53,9 @@ export default {
       }
     };
 
-    const passLogin = (email) => {
+    const passLogin = (nickname) => {
       //로그인 되었을경우 동작
-      props.modalFunction.normal(`${email}으로 이미 가입 되어있어요.`);
+      props.modalFunction.warn(`${nickname}님! 환영합니다!`);
       router.push("/");
     };
 
@@ -82,7 +82,7 @@ export default {
       try {
         axios
           .post(
-            "/api/checknewbie",
+            "/api/login",
             { accessToken: accessToken },
             {
               headers: { Authorization: idToken },
@@ -97,14 +97,14 @@ export default {
             } else {
               //신규회원일경우
               if (response.newbie) {
-                console.log(response.newbie);
-                console.log(response.email);
+                // console.log(response.newbie);
+                // console.log(response.email);
                 goToSignUp(response.email);
               } else {
                 // 이미 있는 유저일경우
-                console.log(response.email);
+                // console.log(response.email);
 
-                passLogin(response.email);
+                passLogin(response.nickname);
               }
             }
           });
