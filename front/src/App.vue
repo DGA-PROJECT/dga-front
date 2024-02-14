@@ -39,6 +39,7 @@
       <Loading v-if="state.isLoading" class="fadeInOutLoading" />
 
       <div class="forever">
+        하잉하잉 CICD테스트
         <button class="btn btn-primary" v-on:click="testUserDbCheck()">
           유저 db체크
         </button>
