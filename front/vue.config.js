@@ -11,6 +11,7 @@ module.exports = {
     },
   },
   configureWebpack: (config) => {
+    config.devServer = config.devServer || {};
     if (process.env.NODE_ENV !== "development") {
       config.devServer.proxy = {
         "/api": {
