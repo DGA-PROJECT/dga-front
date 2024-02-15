@@ -47,6 +47,10 @@
         <button class="btn btn-danger" v-on:click="axiosPostTest()">
           백단 POST 테스트
         </button>
+
+        <button class="btn btn-danger" v-on:click="axiosSamplePostTest()">
+          백단 POST 테스트 full url
+        </button>
         <button class="btn btn-primary" v-on:click="$router.push('/signup')">
           signup component
         </button>
@@ -143,9 +147,11 @@ export default {
     });
 
     const apiPath =
-      process.env.NODE_ENV == "development"
+      process.env.NODE_ENV !== "development"
         ? "http://localhost:3000"
         : "https://c8pxvbc788.execute-api.ap-northeast-2.amazonaws.com/dga";
+
+    console.log(apiPath + "/postest");
 
     const stateFunction = reactive({
       loadingFunctionStart: () => {
@@ -249,6 +255,17 @@ export default {
       });
     };
 
+    const axiosSamplePostTest = () => {
+      axios
+        .post(
+          "https://c8pxvbc788.execute-api.ap-northeast-2.amazonaws.com/dga/postest",
+          { data: "data" }
+        )
+        .then((res) => {
+          alert(JSON.stringify(res.data));
+        });
+    };
+
     const goToLoginOrSignup = () => {
       // 개발 모드일 경우
       if (process.env.NODE_ENV == "development") {
@@ -281,6 +298,7 @@ export default {
       goToLoginOrSignup,
       testGet,
       redirectTest,
+      axiosSamplePostTest,
     };
   },
 };
