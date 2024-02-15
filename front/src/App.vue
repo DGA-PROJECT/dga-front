@@ -71,6 +71,10 @@
           리다이렉션 테스트
         </button>
 
+        <button class="btn btn-warning" v-on:click="axiosSamplePostTest()">
+          순수 axios 테스트
+        </button>
+
         <div class="alertBtns">
           <button
             class="btn btn-primary"
@@ -242,6 +246,14 @@ export default {
       });
     };
 
+    const axiosSamplePostTest = () => {
+      axios
+        .post("http://43.202.68.82:3000/postest", { data: "data" })
+        .then((res) => {
+          alert(JSON.stringify(res.data));
+        });
+    };
+
     const goToLoginOrSignup = () => {
       // 개발 모드일 경우
       if (process.env.NODE_ENV == "development") {
@@ -274,6 +286,7 @@ export default {
       goToLoginOrSignup,
       testUserDbCheck,
       redirectTest,
+      axiosSamplePostTest,
     };
   },
 };
