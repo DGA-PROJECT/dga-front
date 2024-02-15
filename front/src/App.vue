@@ -147,7 +147,7 @@ export default {
     });
 
     const apiPath =
-      process.env.NODE_ENV !== "development"
+      process.env.NODE_ENV == "development"
         ? "http://localhost:3000"
         : "https://c8pxvbc788.execute-api.ap-northeast-2.amazonaws.com/dga";
 
