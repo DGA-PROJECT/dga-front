@@ -34,14 +34,18 @@
         :modalState="modalState"
         :modalFunction="modalFunction"
         :style="style"
+        :apiPath="apiPath"
         class="router"
       ></router-view>
       <Loading v-if="state.isLoading" class="fadeInOutLoading" />
 
       <div class="forever">
         하잉하잉 CICD테스트
-        <button class="btn btn-primary" v-on:click="testUserDbCheck()">
-          유저 db체크
+        <button class="btn btn-primary" v-on:click="testGet()">
+          백단 GET 테스트
+        </button>
+        <button class="btn btn-danger" v-on:click="axiosPostTest()">
+          백단 POST 테스트
         </button>
         <button class="btn btn-primary" v-on:click="$router.push('/signup')">
           signup component
@@ -63,16 +67,8 @@
           로딩 테스트
         </button>
 
-        <button class="btn btn-danger" v-on:click="axiosPostTest()">
-          백단 테스트
-        </button>
-
         <button class="btn btn-warning" v-on:click="redirectTest()">
           리다이렉션 테스트
-        </button>
-
-        <button class="btn btn-warning" v-on:click="axiosSamplePostTest()">
-          순수 axios 테스트
         </button>
 
         <div class="alertBtns">
@@ -145,6 +141,11 @@ export default {
       mode: process.env.NODE_ENV == "development" ? "dev" : "production",
       isLoading: false,
     });
+
+    const apiPath =
+      process.env.NODE_ENV == "development"
+        ? "http://localhost:3000"
+        : "https://c8pxvbc788.execute-api.ap-northeast-2.amazonaws.com/dga";
 
     const stateFunction = reactive({
       loadingFunctionStart: () => {
@@ -243,20 +244,9 @@ export default {
     //test
 
     const axiosPostTest = () => {
-      axios.post("/api/postest", { data: "data" }).then((res) => {
+      axios.post(apiPath + "/postest", { data: "data" }).then((res) => {
         alert(JSON.stringify(res.data));
       });
-    };
-
-    const axiosSamplePostTest = () => {
-      axios
-        .post(
-          "https://pnc0yhimw9.execute-api.ap-northeast-2.amazonaws.com/muzzi",
-          { data: "data" }
-        )
-        .then((res) => {
-          alert(JSON.stringify(res.data));
-        });
     };
 
     const goToLoginOrSignup = () => {
@@ -271,8 +261,8 @@ export default {
       }
     };
 
-    const testUserDbCheck = () => {
-      axios.get("/api/testget").then((res) => {
+    const testGet = () => {
+      axios.get(apiPath + "/testget").then((res) => {
         alert(res.data);
       });
     };
@@ -289,9 +279,8 @@ export default {
       modalFunction,
       axiosPostTest,
       goToLoginOrSignup,
-      testUserDbCheck,
+      testGet,
       redirectTest,
-      axiosSamplePostTest,
     };
   },
 };

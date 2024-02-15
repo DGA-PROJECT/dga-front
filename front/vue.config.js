@@ -1,15 +1,6 @@
 module.exports = {
   devServer: {
-    proxy: {
-      "/api": {
-        target:
-          "https://c8pxvbc788.execute-api.ap-northeast-2.amazonaws.com/test",
-        changeOrigin: true,
-        pathRewrite: {
-          "^/api": "",
-        },
-      },
-    },
+    proxy: {},
   },
 };
 // module.exports = {
