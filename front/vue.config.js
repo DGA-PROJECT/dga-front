@@ -2,7 +2,8 @@ module.exports = {
   devServer: {
     proxy: {
       "/api": {
-        target: "http://43.202.68.82:3000",
+        target:
+          "https://c8pxvbc788.execute-api.ap-northeast-2.amazonaws.com/test",
         changeOrigin: true,
         pathRewrite: {
           "^/api": "",
