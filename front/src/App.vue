@@ -250,7 +250,10 @@ export default {
 
     const axiosSamplePostTest = () => {
       axios
-        .post("http://43.202.68.82:3000/postest", { data: "data" })
+        .post(
+          "https://pnc0yhimw9.execute-api.ap-northeast-2.amazonaws.com/muzzi",
+          { data: "data" }
+        )
         .then((res) => {
           alert(JSON.stringify(res.data));
         });
