@@ -67,6 +67,10 @@
           백단 테스트
         </button>
 
+        <button class="btn btn-warning" v-on:click="redirectTest()">
+          리다이렉션 테스트
+        </button>
+
         <div class="alertBtns">
           <button
             class="btn btn-primary"
@@ -256,6 +260,10 @@ export default {
       });
     };
 
+    const redirectTest = () => {
+      window.location.href = "https://www.daddygo.vacations/signup";
+    };
+
     return {
       state,
       stateFunction,
@@ -265,6 +273,7 @@ export default {
       axiosPostTest,
       goToLoginOrSignup,
       testUserDbCheck,
+      redirectTest,
     };
   },
 };
