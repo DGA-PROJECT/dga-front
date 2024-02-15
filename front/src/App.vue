@@ -248,14 +248,7 @@ export default {
 
     const axiosSamplePostTest = () => {
       axios
-        .post(
-          "http://43.202.68.82:3000/postest",
-          { data: "data" },
-          {
-            // 보안상의 이유로 권장되지 않습니다. 실제 배포 시에는 HTTPS 사용을 고려하세요.
-            withCredentials: true,
-          }
-        )
+        .post("http://43.202.68.82:3000/postest", { data: "data" })
         .then((res) => {
           alert(JSON.stringify(res.data));
         });
