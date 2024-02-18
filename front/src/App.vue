@@ -1,20 +1,62 @@
 <template>
   <div class="containerApp">
-    <div class="boxTop">
-      <div class="highLight"></div>
-    </div>
+    <nav class="navTop">
+      <p>mode : {{ state.mode }}</p>
+
+      <div class="navBox">
+        <i class="fa-solid fa-user"></i>
+        <p>your nickname</p>
+      </div>
+    </nav>
+
+    <!-- <div class="list">
+      <i class="fa-solid fa-plus"></i>
+      <p>write</p>
+    </div> -->
+
+    <nav class="navBot">
+      <div
+        :class="state.nav == 'home' ? 'active' : 'list'"
+        v-on:click="stateFunction.changeRouter('home')"
+      >
+        <i class="fa-solid fa-house"></i>
+        <p v-if="state.nav == 'home'">home</p>
+      </div>
+      <div
+        :class="state.nav == 'board' ? 'active' : 'list'"
+        v-on:click="stateFunction.changeRouter('board')"
+      >
+        <i class="fa-solid fa-bars"></i>
+        <p v-if="state.nav == 'board'">board</p>
+      </div>
+
+      <div
+        :class="state.nav == 'search' ? 'active' : 'list'"
+        v-on:click="stateFunction.changeRouter('search')"
+      >
+        <i class="fa-solid fa-magnifying-glass-plus"></i>
+        <p v-if="state.nav == 'search'">search</p>
+      </div>
+      <div
+        :class="state.nav == 'myplan' ? 'active' : 'list'"
+        v-on:click="stateFunction.changeRouter('myplan')"
+      >
+        <i class="fa-solid fa-cart-shopping"></i>
+        <p v-if="state.nav == 'myplan'">myplan</p>
+      </div>
+    </nav>
+
+    <router-view
+      :modalState="modalState"
+      :modalFunction="modalFunction"
+      :style="style"
+      class="router"
+    ></router-view>
+
+    <Loading v-if="state.isLoading" class="fadeInOutLoading" />
 
     <!-- alert모달들 끝 -->
     <div class="dev">
-      <p>mode : {{ state.mode }}</p>
-      <router-view
-        :modalState="modalState"
-        :modalFunction="modalFunction"
-        :style="style"
-        class="router"
-      ></router-view>
-      <Loading v-if="state.isLoading" class="fadeInOutLoading" />
-
       <div class="forever">
         <div class="boxContent">
           <div class="blank"></div>
@@ -82,40 +124,43 @@
           </button>
         </div>
       </div>
+    </div>
 
-      <!-- alert모달들 -->
-      <div
-        class="alertMessage normal_bg fadeInOutLoading"
-        v-if="modalState.normal"
-      >
-        <div class="content expandOpen normal">
-          <img
-            src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/normal.webp"
-          />
-          <p class="poor">{{ modalState.normalMessage }}</p>
-        </div>
-      </div>
-      <div class="alertMessage warn_bg fadeInOutLoading" v-if="modalState.warn">
-        <div class="content expandOpen warn">
-          <img
-            src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/fail.webp"
-          />
-          <p class="poor">{{ modalState.warnMessage }}</p>
-        </div>
-      </div>
-      <div
-        class="alertMessage success_bg fadeInOutLoading"
-        v-if="modalState.success"
-      >
-        <div class="content expandOpen success">
-          <img
-            class="fadeInOutLoading"
-            src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/success.webp"
-          />
-          <p class="poor">{{ modalState.successMessage }}</p>
-        </div>
+    <!-- alert 모달들 -->
+    <div
+      class="alertMessage normal_bg fadeInOutLoading"
+      v-if="modalState.normal"
+    >
+      <div class="content expandOpen normal">
+        <img
+          src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/normal.webp"
+        />
+        <p class="poor">{{ modalState.normalMessage }}</p>
       </div>
     </div>
+    <div class="alertMessage warn_bg fadeInOutLoading" v-if="modalState.warn">
+      <div class="content expandOpen warn">
+        <img
+          src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/fail.webp"
+        />
+        <p class="poor">{{ modalState.warnMessage }}</p>
+      </div>
+    </div>
+    <div
+      class="alertMessage success_bg fadeInOutLoading"
+      v-if="modalState.success"
+    >
+      <div class="content expandOpen success">
+        <img
+          class="fadeInOutLoading"
+          src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/success.webp"
+        />
+        <p class="poor">{{ modalState.successMessage }}</p>
+      </div>
+    </div>
+    <!-- alert 모달들 -->
+
+    <div class="blank"></div>
   </div>
 </template>
 
@@ -130,6 +175,7 @@ export default {
     const state = reactive({
       mode: process.env.NODE_ENV == "development" ? "dev" : "production",
       isLoading: false,
+      nav: "home",
     });
 
     console.log(process.env.NODE_ENV);
@@ -142,6 +188,9 @@ export default {
         setTimeout(() => {
           state.isLoading = false;
         }, 2000);
+      },
+      changeRouter: (router) => {
+        state.nav = router;
       },
     });
 
@@ -208,7 +257,7 @@ export default {
         setTimeout(() => {
           modalState.normal = false;
           modalState.normalMessage = null;
-        }, 2000);
+        }, 1200);
       },
       warn: (content) => {
         modalState.warn = true;
@@ -216,7 +265,7 @@ export default {
         setTimeout(() => {
           modalState.warn = false;
           modalState.warnMessage = null;
-        }, 2000);
+        }, 1200);
       },
       success: (content) => {
         modalState.success = true;
@@ -224,7 +273,7 @@ export default {
         setTimeout(() => {
           modalState.success = false;
           modalState.successMessage = null;
-        }, 2000);
+        }, 1200);
       },
     });
 
@@ -288,20 +337,107 @@ body {
   padding: 0;
   font-family: "Nanum Gothic", sans-serif;
 }
+
+.container {
+  padding: 0;
+}
+
 .containerApp {
   height: 100vh;
   padding: 0;
 
-  .boxTop {
-    position: absolute;
-    top: 300px;
-    .highLight {
+  .blank {
+    width: 100px;
+    height: 100px;
+  }
+
+  .navTop {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    height: 50px;
+    display: flex;
+    justify-content: flex-end;
+    z-index: 1;
+    color: white;
+    border-radius: 25px;
+
+    .navBox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40%;
+      border-radius: 25px;
+      padding: 10px;
+      background-color: rgba(0, 0, 0, 0.5);
+      p {
+        margin: 0;
+      }
+      i {
+        margin-right: 15px;
+      }
     }
   }
-  .boxContent {
-    .blank {
-      width: 100px;
-      height: 100px;
+
+  .navBot {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    height: 90px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: v-bind("style.colors.blue2");
+    border-radius: 40px;
+    padding: 5px;
+    z-index: 1;
+    box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.3);
+
+    .list {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 90px;
+      color: v-bind("style.colors.white1");
+      font-size: 1.5em;
+    }
+    @keyframes active_anime {
+      0% {
+        width: 25%;
+        background: auto;
+        color: v-bind("style.colors.white1");
+        font-size: 1.5em;
+      }
+      100% {
+        background-color: v-bind("style.colors.white1");
+        color: v-bind("style.colors.blue4");
+        width: 50%;
+        border-radius: 40px;
+        height: 70px;
+        font-size: 2em;
+      }
+    }
+
+    .active {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      animation-name: active_anime; /* 애니메이션 이름 설정 */
+      animation: active_anime 0.5s forwards; /* 애니메이션 적용 및 유지 */
+      animation-duration: 0.5s; /* 애니메이션 지속 시간 설정 */
+      background-color: v-bind("style.colors.white1");
+      width: 50%;
+      border-radius: 40px;
+      height: 70px;
+      font-size: 2em;
+      border: v-bind("style.colors.blue3") 3px solid;
+
+      i {
+        margin-right: 10px;
+      }
+      p {
+        margin: 0;
+      }
     }
   }
 
