@@ -1,32 +1,9 @@
 <template>
   <div class="containerApp">
-    <nav class="navTop">
-      <i class="fa-solid fa-right-from-bracket"></i>
-    </nav>
-
-    <div class="bg">
-      <img
-        class="bgImg"
-        src="https://dgafrontui.s3.ap-northeast-2.amazonaws.com/mainui/background1.jpg"
-        alt=""
-      />
-      <div class="coverBg"></div>
-    </div>
-
     <div class="boxTop">
       <div class="highLight"></div>
     </div>
 
-    <div class="boxContent">
-      <div class="blank"></div>
-      <div class="blank"></div>
-      <div class="blank"></div>
-      <div class="blank"></div>
-      <div class="blank"></div>
-      <div class="blank"></div>
-      <div class="blank"></div>
-      <div class="blank"></div>
-    </div>
     <!-- alert모달들 끝 -->
     <div class="dev">
       <p>mode : {{ state.mode }}</p>
@@ -34,12 +11,21 @@
         :modalState="modalState"
         :modalFunction="modalFunction"
         :style="style"
-        :apiPath="apiPath"
         class="router"
       ></router-view>
       <Loading v-if="state.isLoading" class="fadeInOutLoading" />
 
       <div class="forever">
+        <div class="boxContent">
+          <div class="blank"></div>
+          <div class="blank"></div>
+          <div class="blank"></div>
+          <div class="blank"></div>
+          <div class="blank"></div>
+          <div class="blank"></div>
+          <div class="blank"></div>
+          <div class="blank"></div>
+        </div>
         하잉하잉 CICD테스트
         <button class="btn btn-primary" v-on:click="testGet()">
           백단 GET 테스트
@@ -146,12 +132,7 @@ export default {
       isLoading: false,
     });
 
-    const apiPath =
-      process.env.NODE_ENV == "development"
-        ? "http://localhost:3000"
-        : "https://c8pxvbc788.execute-api.ap-northeast-2.amazonaws.com/dga";
-
-    console.log(apiPath + "/postest");
+    console.log(process.env.NODE_ENV);
 
     const stateFunction = reactive({
       loadingFunctionStart: () => {
@@ -250,17 +231,14 @@ export default {
     //test
 
     const axiosPostTest = () => {
-      axios.post(apiPath + "/postest", { data: "data" }).then((res) => {
+      axios.post("/api/postest", { data: "data" }).then((res) => {
         alert(JSON.stringify(res.data));
       });
     };
 
     const axiosSamplePostTest = () => {
       axios
-        .post(
-          "https://c8pxvbc788.execute-api.ap-northeast-2.amazonaws.com/dga/postest",
-          { data: "data" }
-        )
+        .post("https://www.daddygo.vacations/api/postest", { data: "data" })
         .then((res) => {
           alert(JSON.stringify(res.data));
         });
@@ -279,7 +257,7 @@ export default {
     };
 
     const testGet = () => {
-      axios.get(apiPath + "/testget").then((res) => {
+      axios.get("/api/testget").then((res) => {
         alert(res.data);
       });
     };
@@ -313,37 +291,7 @@ body {
 .containerApp {
   height: 100vh;
   padding: 0;
-  .bg {
-    .bgImg {
-      position: fixed;
-      top: 0;
-      left: -50vw;
-      display: flex;
-      justify-content: center;
-      width: 200vw;
-      z-index: -2;
-    }
-    .coverBg {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      height: 60vh;
-      background-color: rgba(0, 0, 0, 0.4);
-      z-index: -1;
-    }
-  }
 
-  .navTop {
-    width: 100%;
-    position: fixed;
-    top: 0;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    background-color: red;
-    i {
-    }
-  }
   .boxTop {
     position: absolute;
     top: 300px;
@@ -358,6 +306,9 @@ body {
   }
 
   .dev {
+    div {
+      padding: 0;
+    }
     .grass {
       width: 100%;
       height: 100%;
