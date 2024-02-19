@@ -280,7 +280,7 @@ export default {
     //test
 
     const axiosPostTest = () => {
-      axios.post("/api/postest", { data: "data" }).then((res) => {
+      axios.post("/api/users/postest", { data: "data" }).then((res) => {
         alert(JSON.stringify(res.data));
       });
     };
@@ -296,7 +296,7 @@ export default {
           }
         )
 =======
-        .post("https://www.daddygo.vacations/api/postest", { data: "data" })
+        .post("https://www.daddygo.vacations/api/users/postest", { data: "data" })
 >>>>>>> f13800786ee6f84523a84aa619e8e982f50eba57
         .then((res) => {
           alert(JSON.stringify(res.data));
@@ -316,7 +316,7 @@ export default {
     };
 
     const testGet = () => {
-      axios.get("/api/testget").then((res) => {
+      axios.get("/api/users/testget").then((res) => {
         alert(res.data);
       });
     };
