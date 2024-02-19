@@ -259,7 +259,10 @@ export default {
       axios
         .post(
           "https://c8pxvbc788.execute-api.ap-northeast-2.amazonaws.com/dga/postest",
-          { data: "data" }
+          { data: "data" },
+          {
+            withCredentials: true,
+          }
         )
         .then((res) => {
           alert(JSON.stringify(res.data));
