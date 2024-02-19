@@ -67,6 +67,13 @@ export default {
       router.push("/signup");
     };
 
+    const goToError = () => {
+      //회원가입 진행
+      //응답 받은 데이터에서 이메일 주소를 로컬스토리지에 저장함 (할지말지)
+      //리다이렉션
+      router.push("/");
+    };
+
     // 토큰을 백단에 보내는 함수.
     const checkNewbie = () => {
       const tokenObj = parsingToken();
@@ -82,7 +89,7 @@ export default {
       try {
         axios
           .post(
-            "/api/login",
+            "/api/users/login",
             { accessToken: accessToken },
             {
               headers: { Authorization: idToken },
@@ -107,6 +114,14 @@ export default {
                 passLogin(response.nickname);
               }
             }
+          })
+          .catch((error) => {
+            // 에러 처리
+            console.error("에러 발생:", error.message);
+            props.modalFunction.warn(
+              `에러가 발생했어요 ㅠ 잠시 후 다시 시도해주세요.`
+            );
+            goToError();
           });
       } catch (err) {
         console.log(err.message);
