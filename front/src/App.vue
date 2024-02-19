@@ -285,23 +285,7 @@ export default {
       });
     };
 
-    const axiosSamplePostTest = () => {
-      axios
-<<<<<<< HEAD
-        .post(
-          "https://c8pxvbc788.execute-api.ap-northeast-2.amazonaws.com/dga/postest",
-          { data: "data" },
-          {
-            withCredentials: true,
-          }
-        )
-=======
-        .post("https://www.daddygo.vacations/api/users/postest", { data: "data" })
->>>>>>> f13800786ee6f84523a84aa619e8e982f50eba57
-        .then((res) => {
-          alert(JSON.stringify(res.data));
-        });
-    };
+    const axiosSamplePostTest = () => {};
 
     const goToLoginOrSignup = () => {
       // 개발 모드일 경우
