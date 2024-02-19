@@ -90,7 +90,7 @@ export default {
         axios
           .post(
             "/api/users/login",
-            { accessToken: accessToken },
+            { accessToken: accessToken, idToken: idToken },
             {
               headers: { Authorization: idToken },
             },

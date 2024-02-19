@@ -312,7 +312,11 @@ export default {
         axios
           .post(
             "/api/users/nickname",
-            { accessToken: accessToken, nickname: chosenInfo.nickname },
+            {
+              accessToken: accessToken,
+              idToken: idToken,
+              nickname: chosenInfo.nickname,
+            },
             {
               headers: { Authorization: idToken },
             },
@@ -393,7 +397,11 @@ export default {
         axios
           .post(
             "/api/users/newbie",
-            { accessToken: accessToken, signupUserInfo: signupUserInfo },
+            {
+              accessToken: accessToken,
+              idToken: idToken,
+              signupUserInfo: signupUserInfo,
+            },
             {
               headers: { Authorization: idToken },
             },
