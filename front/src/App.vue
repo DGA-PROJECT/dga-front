@@ -5,7 +5,8 @@
 
       <div class="navBox">
         <i class="fa-solid fa-user"></i>
-        <p>your nickname</p>
+        <p v-if="state.userInfo?.nickname">{{ state.userInfo?.nickname }}</p>
+        <p v-if="!state.userInfo?.nickname">로그인/회원가입</p>
       </div>
     </nav>
 
@@ -49,6 +50,8 @@
     <router-view
       :modalState="modalState"
       :modalFunction="modalFunction"
+      :stateFunction="stateFunction"
+      :state="state"
       :style="style"
       class="router"
     ></router-view>
@@ -131,7 +134,7 @@
       class="alertMessage normal_bg fadeInOutLoading"
       v-if="modalState.normal"
     >
-      <div class="content expandOpen normal">
+      <div class="content normal expandOpen">
         <img
           src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/normal.webp"
         />
@@ -139,7 +142,7 @@
       </div>
     </div>
     <div class="alertMessage warn_bg fadeInOutLoading" v-if="modalState.warn">
-      <div class="content expandOpen warn">
+      <div class="content warn expandOpen">
         <img
           src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/fail.webp"
         />
@@ -150,7 +153,7 @@
       class="alertMessage success_bg fadeInOutLoading"
       v-if="modalState.success"
     >
-      <div class="content expandOpen success">
+      <div class="content success expandOpen">
         <img
           class="fadeInOutLoading"
           src="https://dgaui.s3.ap-northeast-2.amazonaws.com/alertmodal/success.webp"
@@ -176,6 +179,7 @@ export default {
       mode: process.env.NODE_ENV == "development" ? "dev" : "production",
       isLoading: false,
       nav: "home",
+      userInfo: {},
     });
 
     console.log(process.env.NODE_ENV);
@@ -191,6 +195,35 @@ export default {
       },
       changeRouter: (router) => {
         state.nav = router;
+      },
+      emitUserInfo: (result) => {
+        state.userInfo.nickname = result.nickname;
+      },
+      truncateText: (text, maxLength) => {
+        if (text.length > maxLength) {
+          return text.substring(0, maxLength) + "...";
+        }
+        return text;
+      },
+      translateArea: (text) => {
+        switch (text) {
+          case "Jeju":
+            return "제주도";
+          case "Seoul":
+            return "서울";
+          case "Kangwon":
+            return "강원도";
+          // 다른 지역에 대한 번역 추가
+          // case '다른지역':
+          //   return '번역값';
+          default:
+            return text;
+        }
+      },
+      imgLinkKidOrElder: (type) => {
+        return type == "kid"
+          ? "https://dgaui.s3.ap-northeast-2.amazonaws.com/emoticon/kid.webp"
+          : "https://dgaui.s3.ap-northeast-2.amazonaws.com/emoticon/elder.webp";
       },
     });
 
@@ -238,6 +271,9 @@ export default {
         white2: "#fffaff",
         white1: "#f9f9f9",
         black1: "#1e1b18",
+        lightYellow: "#fff7d4",
+        lightBlue: "#d2efff",
+        lightRed: "#ffd2e1",
       },
     });
 
@@ -257,7 +293,7 @@ export default {
         setTimeout(() => {
           modalState.normal = false;
           modalState.normalMessage = null;
-        }, 1200);
+        }, 3000);
       },
       warn: (content) => {
         modalState.warn = true;
@@ -265,7 +301,7 @@ export default {
         setTimeout(() => {
           modalState.warn = false;
           modalState.warnMessage = null;
-        }, 1200);
+        }, 3000);
       },
       success: (content) => {
         modalState.success = true;
@@ -273,7 +309,7 @@ export default {
         setTimeout(() => {
           modalState.success = false;
           modalState.successMessage = null;
-        }, 1200);
+        }, 3000);
       },
     });
 
@@ -360,7 +396,7 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 40%;
+      width: 50%;
       border-radius: 25px;
       padding: 10px;
       background-color: rgba(0, 0, 0, 0.5);
@@ -469,7 +505,6 @@ body {
     background-color: v-bind("style.alertModal.success.bg");
   }
   .alertMessage {
-    position: relative;
     width: 100%;
     height: 100%;
     position: fixed;
@@ -480,10 +515,13 @@ body {
     z-index: 10;
 
     .content {
+      position: relative;
+
       width: 80%;
       display: flex;
       justify-content: center;
       align-items: center;
+      text-align: center;
       padding: 20px;
       border-radius: 10px;
       img {
@@ -519,7 +557,7 @@ body {
     animation: fadeInOut 1.5s ease-in-out 1;
   }
   .fadeInOutLoading {
-    animation: fadeInOutLoading 2s ease-in-out 1;
+    animation: fadeInOutLoading 3s ease-in-out 1;
   }
 
   @keyframes fadeInOut {

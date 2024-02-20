@@ -12,6 +12,7 @@ import router from "../router";
 export default {
   name: "Success",
   props: {
+    stateFunction: Object,
     modalFunction: Object,
     style: Object,
   },
@@ -53,9 +54,15 @@ export default {
       }
     };
 
-    const passLogin = (nickname) => {
+    const passLogin = (response) => {
       //로그인 되었을경우 동작
-      props.modalFunction.warn(`${nickname}님! 환영합니다!`);
+      localStorage.setItem("email", response.result.email);
+      localStorage.setItem("nickname", response.result.nickname);
+      localStorage.setItem("user_id", response.result.user_id);
+      props.stateFunction.emitUserInfo(response.result);
+      props.modalFunction.success(
+        `${response.result.nickname}님! 로그인이 되었습니다!`
+      );
       router.push("/");
     };
 
@@ -68,10 +75,8 @@ export default {
     };
 
     const goToError = () => {
-      //회원가입 진행
-      //응답 받은 데이터에서 이메일 주소를 로컬스토리지에 저장함 (할지말지)
-      //리다이렉션
       router.push("/");
+      props.modalFunction.warn(`비정상적인 접근입니다.`);
     };
 
     // 토큰을 백단에 보내는 함수.
@@ -99,6 +104,7 @@ export default {
           .then((res) => {
             // const response = JSON.parse(res.data);
             const response = JSON.parse(res.data);
+
             if (response.error) {
               throw new Error(res.data.error.message);
             } else {
@@ -106,12 +112,10 @@ export default {
               if (response.newbie) {
                 // console.log(response.newbie);
                 // console.log(response.email);
-                goToSignUp(response.email);
+                goToSignUp(response);
               } else {
-                // 이미 있는 유저일경우
                 // console.log(response.email);
-
-                passLogin(response.nickname);
+                passLogin(response);
               }
             }
           })

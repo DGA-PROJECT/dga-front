@@ -17,12 +17,20 @@ module.exports = {
     config.devServer = config.devServer || {};
     if (process.env.NODE_ENV == "development") {
       config.devServer.proxy = {
-        "/api": {
+        "/api/users": {
           //여기에 배포 클러스터
           target: "http://localhost:3000",
           changeOrigin: true,
           pathRewrite: {
-            "^/api": "",
+            "^/api/users": "",
+          },
+        },
+        "/api/leader": {
+          //여기에 배포 클러스터
+          target: "http://localhost:3001",
+          changeOrigin: true,
+          pathRewrite: {
+            "^/api/leader": "",
           },
         },
       };
@@ -31,6 +39,13 @@ module.exports = {
         "/api/users": {
           //여기에 배포 클러스터
           target: "https://www.daddygo.vacations/api/users",
+          changeOrigin: true,
+          pathRewrite: {
+            "^/api": "",
+          },
+        },
+        "/api/leader": {
+          target: "https://www.daddygo.vacations/api/leader",
           changeOrigin: true,
           pathRewrite: {
             "^/api": "",
