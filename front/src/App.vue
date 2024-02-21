@@ -106,6 +106,14 @@
           리다이렉션 테스트
         </button>
 
+        <button class="btn btn-success" v-on:click="envTest()">
+          백단 환경변수 테스트
+        </button>
+
+        <button class="btn btn-success" v-on:click="dbTest()">
+          db접근 테스트
+        </button>
+
         <div class="alertBtns">
           <button
             class="btn btn-primary"
@@ -345,6 +353,18 @@ export default {
       window.location.href = "https://www.daddygo.vacations/signup";
     };
 
+    const envTest = () => {
+      axios.get("/api/users/envtest").then((res) => {
+        alert(res.data);
+      });
+    };
+
+    const dbTest = () => {
+      axios.get("/api/users/dbtest").then((res) => {
+        alert(res.data);
+      });
+    };
+
     return {
       state,
       stateFunction,
@@ -356,6 +376,8 @@ export default {
       testGet,
       redirectTest,
       axiosSamplePostTest,
+      envTest,
+      dbTest,
     };
   },
 };
