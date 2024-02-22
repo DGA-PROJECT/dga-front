@@ -434,7 +434,6 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 50%;
       border-radius: 25px;
       padding: 10px;
       background-color: rgba(0, 0, 0, 0.5);

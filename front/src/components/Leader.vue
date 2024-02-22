@@ -60,7 +60,12 @@
     </div>
 
     <div class="content">
-      <h5 class="title">또 간집 랭킹</h5>
+      <div class="title_again rank_title">
+        <img
+          src="https://dgaui.s3.ap-northeast-2.amazonaws.com/rank/title/title_again.webp"
+          alt=""
+        />
+      </div>
       <div class="rankingBox slideLeft revisit">
         <div class="rankingScroll">
           <div
@@ -121,7 +126,12 @@
         </div>
       </div>
 
-      <h5>누구랑 여행 랭킹</h5>
+      <div class="title_type rank_title">
+        <img
+          src="https://dgaui.s3.ap-northeast-2.amazonaws.com/rank/title/title_type.webp"
+          alt=""
+        />
+      </div>
       <ul class="nav nav-tabs">
         <li class="nav-item" v-on:click="mode.travelType = 'kid'">
           <div
@@ -149,7 +159,6 @@
           </div>
         </li>
       </ul>
-
       <div
         class="rankingBox slideRight kidOrElder"
         v-if="mode.travelType == 'kid'"
@@ -260,8 +269,15 @@
           </div>
         </div>
       </div>
+
+      <div class="title_area rank_title">
+        <img
+          src="https://dgaui.s3.ap-northeast-2.amazonaws.com/rank/title/title_area.webp"
+          alt=""
+        />
+      </div>
     </div>
-    <h1>leader board web</h1>
+    <h1>leader board wddedddb</h1>
   </div>
 </template>
 
@@ -410,6 +426,20 @@ body {
     }
   }
   .content {
+    .rank_title {
+      width: 100%;
+      margin-top: 10px;
+      border-radius: 30px 30px 0 0;
+    }
+    .title_again {
+      background-color: v-bind("style.colors.lightRed");
+    }
+    .title_type {
+      background-color: v-bind("style.colors.lightYellow");
+    }
+    .title_area {
+      background-color: v-bind("style.colors.lightBlue");
+    }
     .rankingBox {
       padding: 10px;
       width: 100vw;
@@ -480,7 +510,7 @@ body {
       }
     }
     .revisit {
-      background-color: v-bind("style.colors.lightYellow");
+      background-color: v-bind("style.colors.lightRed");
 
       .rankingScroll {
         .card-body {
@@ -555,7 +585,7 @@ body {
     }
     .nav-tabs {
       width: 100%;
-      background-color: v-bind("style.colors.blue1");
+      background-color: v-bind("style.colors.lightYellow");
       color: v-bind("style.colors.white1");
       border-radius: 5px 5px 0 0;
       padding-top: 10px;
@@ -568,7 +598,7 @@ body {
           width: 90%;
           display: flex;
           align-content: center;
-          color: v-bind("style.colors.white1");
+          color: v-bind("style.colors.blue4");
 
           img {
             width: 50px;
@@ -583,11 +613,11 @@ body {
       }
 
       .active {
-        background-color: v-bind("style.colors.blue4");
+        background-color: v-bind("style.colors.yellow1");
       }
     }
     .kidOrElder {
-      background-color: v-bind("style.colors.lightBlue");
+      background-color: v-bind("style.colors.lightYellow");
 
       .rankingScroll {
         .card-body {
