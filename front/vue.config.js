@@ -33,6 +33,14 @@ module.exports = {
             "^/api/leader": "",
           },
         },
+        "/api/search": {
+          //여기에 배포 클러스터
+          target: "http://localhost:3002",
+          changeOrigin: true,
+          pathRewrite: {
+            "^/api/search": "",
+          },
+        },
       };
     } else {
       config.devServer.proxy = {
@@ -46,6 +54,13 @@ module.exports = {
         },
         "/api/leader": {
           target: "https://www.daddygo.vacations/api/leader",
+          changeOrigin: true,
+          pathRewrite: {
+            "^/api": "",
+          },
+        },
+        "/api/search": {
+          target: "https://www.daddygo.vacations/api/search",
           changeOrigin: true,
           pathRewrite: {
             "^/api": "",
