@@ -171,10 +171,12 @@
 import { reactive } from "vue";
 import axios from "axios";
 import Loading from "./components/Loading.vue";
+import { useRouter } from "vue-router";
 
 export default {
   components: { Loading },
   setup() {
+    const router = useRouter();
     const state = reactive({
       mode: process.env.NODE_ENV == "development" ? "dev" : "production",
       isLoading: false,
@@ -183,7 +185,6 @@ export default {
     });
 
     console.log(process.env.NODE_ENV);
-
     const stateFunction = reactive({
       loadingFunctionStart: () => {
         state.isLoading = true;
@@ -193,8 +194,13 @@ export default {
           state.isLoading = false;
         }, 2000);
       },
-      changeRouter: (router) => {
-        state.nav = router;
+      changeRouter: (routePath) => {
+        state.nav = routePath;
+        if (routePath == "home") {
+          router.push("/");
+        } else {
+          router.push("/" + routePath);
+        }
       },
       emitUserInfo: (result) => {
         state.userInfo.nickname = result.nickname;
@@ -206,16 +212,26 @@ export default {
         return text;
       },
       translateArea: (text) => {
-        switch (text) {
-          case "Jeju":
-            return "제주도";
-          case "Seoul":
+        switch (text.toLowerCase()) {
+          case "seoul":
             return "서울";
-          case "Kangwon":
+          case "chungcheong":
+            return "충청도";
+          case "kangwon":
             return "강원도";
-          // 다른 지역에 대한 번역 추가
-          // case '다른지역':
-          //   return '번역값';
+          case "gyeonggi":
+            return "경기도";
+          case "jeollanam":
+            return "전라남도";
+          case "jeollabuk":
+            return "전라북도";
+          case "gyeongsangbuk":
+            return "경상북도";
+          case "gyeongsangnam":
+            return "경상남도";
+          case "jeju":
+            return "제주도";
+
           default:
             return text;
         }
