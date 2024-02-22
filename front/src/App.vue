@@ -227,7 +227,7 @@ export default {
             return "충청도";
           case "kangwon":
             return "강원도";
-          case "gyeonggi":
+          case "gyungi":
             return "경기도";
           case "jeollanam":
             return "전라남도";

@@ -276,8 +276,96 @@
           alt=""
         />
       </div>
+      <div class="select">
+        <div class="map">
+          <img
+            src="https://dgaui.s3.ap-northeast-2.amazonaws.com/leader/bg.webp"
+            alt="bg"
+          />
+          <img
+            v-for="area in mode.areaArr"
+            :key="area"
+            :class="mode.activeArea == area ? 'active' : 'inactive'"
+            :src="getMapUrl(area)"
+            :alt="area"
+          />
+
+          <img
+            class="tossing"
+            src="https://dgaui.s3.ap-northeast-2.amazonaws.com/leader/objects.webp"
+            alt=""
+          />
+        </div>
+        <div class="area_btns poor" aria-label="Basic example">
+          <button
+            v-for="area in mode.areaArr"
+            :key="area"
+            v-on:click="changeModeArea(area)"
+            class="btn btn-light"
+          >
+            {{ stateFunction.translateArea(area) }}
+          </button>
+        </div>
+      </div>
+      <div class="rank">
+        <div
+          class="rankingBox slideRight areaRank"
+          v-for="areaa in mode.areaArr"
+          :key="areaa"
+        >
+          <div class="rankingScroll" v-if="mode.activeArea == areaa">
+            <div
+              v-for="(post, idx) in data.rank.area[areaa]"
+              :key="post"
+              class="card"
+              style="width: 18rem"
+            >
+              <div class="thumbnail">
+                <img
+                  v-if="modifyUrl(idx, 'area')"
+                  class="rankingBadge"
+                  :src="modifyUrl(idx, 'area')"
+                />
+                <img
+                  :src="post.thumbnail_url"
+                  class="card-img-top"
+                  alt=""
+                  style="height: 12rem"
+                />
+                <div class="mainText mainTextKidOrElder floating">
+                  <i class="fa-solid fa-heart"></i>
+                  <p>{{ post.like_count }}명이 좋아합니다</p>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <h5 class="card-title">
+                  {{ stateFunction.truncateText(post.title, 13) }}
+                </h5>
+
+                <div class="detail1">
+                  <div class="areaAndDestiBox poor">
+                    <i class="fa-solid fa-map-location"></i>
+                    <span>{{ stateFunction.translateArea(post.area) }}의</span>
+                    <span>{{ post.desti_name }}</span>
+                  </div>
+                </div>
+                <div class="detail2">
+                  <div class="revisitBox poor">
+                    <i class="fa-solid fa-arrows-rotate"></i>
+                    <p>
+                      <span>{{ post.revisit_count }}</span
+                      >회 방문
+                    </p>
+                  </div>
+                  <div class="likeBox"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <h1>leader board wddedddb</h1>
   </div>
 </template>
 
@@ -309,11 +397,24 @@ export default {
         elder: [],
         like: [],
         revisit: [],
+        area: {},
       },
     });
 
     const mode = reactive({
       travelType: "kid",
+      activeArea: "seoul",
+      areaArr: [
+        "seoul",
+        "chungcheong",
+        "kangwon",
+        "gyungi",
+        "jeollanam",
+        "jeollabuk",
+        "gyeongsangbuk",
+        "gyeongsangnam",
+        "jeju",
+      ],
     });
 
     const modifyUrl = (idx, kind) => {
@@ -326,6 +427,10 @@ export default {
       } else {
         false;
       }
+    };
+
+    const changeModeArea = (area) => {
+      mode.activeArea = area;
     };
 
     const bgImgInterval = () => {
@@ -345,6 +450,7 @@ export default {
         data.rank.revisit = res.data.revisit;
         data.rank.kid = res.data.kid;
         data.rank.elder = res.data.elder;
+        data.rank.area = res.data.area;
       });
       console.log(data.rank);
     };
@@ -352,10 +458,16 @@ export default {
 
     props;
 
+    const getMapUrl = (area) => {
+      return `https://dgaui.s3.ap-northeast-2.amazonaws.com/leader/${area}.webp`;
+    };
+
     return {
       data,
       mode,
       modifyUrl,
+      getMapUrl,
+      changeModeArea,
     };
   },
 };
@@ -688,6 +800,116 @@ body {
             position: absolute;
             width: 40%;
             padding: 5px;
+          }
+        }
+      }
+    }
+    .select {
+      background-color: v-bind("style.colors.blue2");
+      position: relative;
+
+      .map {
+        width: 100%;
+        height: 100vw;
+        position: relative;
+
+        .inactive {
+          opacity: 0.3;
+        }
+
+        img {
+          position: absolute;
+          width: 100%;
+        }
+      }
+      .area_btns {
+        padding: 10px;
+        background-color: v-bind("style.colors.blue2");
+
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        button {
+          margin: 5px;
+        }
+      }
+    }
+    .rank {
+      position: relative;
+      .areaRank {
+        background-color: v-bind("style.colors.lightYellow");
+
+        .rankingScroll {
+          .card-body {
+            .detail1 {
+              width: 100%;
+              display: flex;
+              p {
+                margin: 0;
+              }
+              .areaAndDestiBox {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                font-size: 1.1em;
+                span {
+                  font-size: 1.3em;
+                }
+
+                i {
+                  margin-right: 7px;
+                  color: v-bind("style.colors.blue2");
+                }
+              }
+            }
+            .detail2 {
+              display: flex;
+              p {
+                margin: 0;
+              }
+              .revisitBox {
+                padding-left: 10px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                width: 50%;
+                font-size: 1.1em;
+                p {
+                  margin-right: 7px;
+                }
+                i {
+                  font-size: 1.2em;
+                  margin-right: 5px;
+                  color: v-bind("style.colors.blue2");
+                }
+              }
+              .likeBox {
+                padding-right: 10px;
+
+                width: 50%;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                font-size: 1.3em;
+                p {
+                  margin: 0;
+                }
+                i {
+                  color: v-bind("style.colors.red1");
+                  margin-right: 5px;
+                }
+              }
+            }
+          }
+          .thumbnail {
+            position: relative;
+            .rankingBadge {
+              position: absolute;
+              width: 40%;
+              padding: 5px;
+            }
           }
         }
       }
