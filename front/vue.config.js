@@ -25,12 +25,12 @@ module.exports = {
             "^/api/users": "",
           },
         },
-        "/api/leader": {
+        "/api/leaderboards": {
           //여기에 배포 클러스터
           target: "http://localhost:3001",
           changeOrigin: true,
           pathRewrite: {
-            "^/api/leader": "",
+            "^/api/leaderboards": "",
           },
         },
         "/api/search": {
@@ -52,8 +52,8 @@ module.exports = {
             "^/api": "",
           },
         },
-        "/api/leader": {
-          target: "https://www.daddygo.vacations/api/leader",
+        "/api/leaderboards": {
+          target: "https://www.daddygo.vacations/api/leaderboards",
           changeOrigin: true,
           pathRewrite: {
             "^/api": "",

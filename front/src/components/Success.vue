@@ -58,11 +58,13 @@ export default {
       //로그인 되었을경우 동작
       localStorage.setItem("email", response.result.email);
       localStorage.setItem("nickname", response.result.nickname);
-      localStorage.setItem("user_id", response.result.user_id);
+      localStorage.setItem("userId", response.result.user_id);
       props.stateFunction.emitUserInfo(response.result);
       props.modalFunction.success(
         `${response.result.nickname}님! 로그인이 되었습니다!`
       );
+
+      props.stateFunction.loginSetting(response.result.nickname);
       router.push("/");
     };
 

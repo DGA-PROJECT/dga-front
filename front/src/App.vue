@@ -3,17 +3,12 @@
     <nav class="navTop">
       <p>mode : {{ state.mode }}</p>
 
-      <div class="navBox">
+      <div class="navBox" v-on:click="goToLoginOrSignup()">
         <i class="fa-solid fa-user"></i>
         <p v-if="state.userInfo?.nickname">{{ state.userInfo?.nickname }}</p>
         <p v-if="!state.userInfo?.nickname">로그인/회원가입</p>
       </div>
     </nav>
-
-    <!-- <div class="list">
-      <i class="fa-solid fa-plus"></i>
-      <p>write</p>
-    </div> -->
 
     <nav class="navBot">
       <div
@@ -58,6 +53,49 @@
 
     <Loading v-if="state.isLoading" class="fadeInOutLoading" />
 
+    <div class="copyright">
+      <a
+        href="https://www.freepik.com/free-vector/flat-emoticons-cute-girl_1011883.htm#page=2&query=kide%20emotion&position=35&from_view=search&track=ais&uuid=b582ada2-0930-4c99-92a5-ac2bfb97e327"
+        >Freepik</a
+      >
+
+      할아버지
+      <a
+        href="https://www.freepik.com/free-vector/flat-dia-de-los-abuelos-illustration_13914243.htm#page=8&query=grandfather&position=46&from_view=search&track=sph&uuid=4ced87a1-5484-4450-b1be-27a355954024"
+        >Freepik</a
+      >
+
+      아빠+애들
+      <a
+        href="https://www.freepik.com/free-vector/happy-flat-design-father-s-day-family_7709910.htm#query=father&position=0&from_view=search&track=sph&uuid=7a11906a-a809-4aa4-8fd2-623d8126532b"
+        >Freepik</a
+      >
+
+      엄마
+      <a
+        href="https://www.freepik.com/free-vector/motherhood-concept-illustration_7119281.htm#page=6&query=mother&position=21&from_view=search&track=sph&uuid=d72b2bea-fce8-4f6f-9523-b2079475a2ab"
+        >Image by storyset</a
+      >
+      on Freepik 메달사진
+      <a
+        href="https://kr.freepik.com/free-vector/collection-of-top-10-badges_11520190.htm#page=5&query=ranking&position=7&from_view=search&track=ais&uuid=4d05c637-6642-4949-be32-61b9ec501ed2"
+        >Freepik</a
+      >
+
+      한반도 디자인
+      <a
+        href="https://kr.freepik.com/free-vector/hand-drawn-south-korea-map-illustration_30121023.htm#query=korea%20map&position=3[%E2%80%A6]1-d7b8-4ea4-858a-1c164e88be71"
+        >Freepik</a
+      >
+
+      왕관 타이틀
+      <a
+        href="https://kr.freepik.com/free-vector/royal-game-buttons-animation-set_45244416.htm#query=rank%20title&position=0&from_view=search&track=ais&uuid=6c87cbd4-8bdb-4b43-825d-ac4ea5db2383"
+        >작가 upklyak</a
+      >
+      출처 Freepik
+    </div>
+
     <!-- alert모달들 끝 -->
     <div class="dev">
       <div class="forever">
@@ -73,17 +111,10 @@
         </div>
         하잉하잉 CICD테스트
         <button class="btn btn-primary" v-on:click="testGet()">
-          백단 GET 테스트
+          login 백단 GET 테스트
         </button>
         <button class="btn btn-danger" v-on:click="axiosPostTest()">
-          백단 POST 테스트
-        </button>
-
-        <button class="btn btn-danger" v-on:click="axiosSamplePostTest()">
-          백단 POST 테스트 full url
-        </button>
-        <button class="btn btn-primary" v-on:click="$router.push('/signup')">
-          signup component
+          login 백단 POST 테스트
         </button>
 
         <button class="btn btn-primary" v-on:click="goToLoginOrSignup()">
@@ -102,16 +133,12 @@
           로딩 테스트
         </button>
 
-        <button class="btn btn-warning" v-on:click="redirectTest()">
-          리다이렉션 테스트
-        </button>
-
         <button class="btn btn-success" v-on:click="envTest()">
-          백단 환경변수 테스트
+          login 백단 환경변수 테스트
         </button>
 
         <button class="btn btn-success" v-on:click="dbTest()">
-          db접근 테스트
+          login db접근 테스트
         </button>
 
         <div class="alertBtns">
@@ -181,19 +208,70 @@ import axios from "axios";
 import Loading from "./components/Loading.vue";
 import { useRouter } from "vue-router";
 
+const extractPath = () => {
+  const currentPathname = window.location.pathname;
+  const matchResult = currentPathname.match(/\/([^/]+)/);
+  const routePath = matchResult ? matchResult[1] : "home";
+  return routePath;
+};
+
 export default {
   components: { Loading },
   setup() {
     const router = useRouter();
+
     const state = reactive({
       mode: process.env.NODE_ENV == "development" ? "dev" : "production",
       isLoading: false,
-      nav: "home",
+      nav: extractPath(),
       userInfo: {},
     });
 
-    console.log(process.env.NODE_ENV);
+    const removeUserInfo = () => {
+      localStorage.removeItem("userId");
+      localStorage.removeItem("idToken");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("email");
+      localStorage.removeItem("nickname");
+      state.userInfo = {};
+    };
+
     const stateFunction = reactive({
+      checkLogin: () => {
+        try {
+          const idToken = localStorage.getItem("idToken");
+          const accessToken = localStorage.getItem("accessToken");
+          const email = localStorage.getItem("email");
+          const nickname = localStorage.getItem("nickname");
+          const userId = localStorage.getItem("userId");
+          if (idToken && accessToken && email && nickname && userId) {
+            const userInfo = { idToken, accessToken, email, nickname, userId };
+
+            axios.post("/api/users/", userInfo).then((res) => {
+              // confirm이 false이면 로컬스토리지 다 비우기,
+              // confirm이 true이면 state.userInfo를 바꾸기 + 로컬스토리지 세팅
+              const answer = JSON.parse(res.data);
+
+              if (answer.confirm) {
+                // confirm이 true이면 state.userInfo를 바꾸기 + 로컬스토리지 세팅
+                localStorage.setItem("userId", answer.userInfo.userId);
+                localStorage.setItem("nickname", answer.userInfo.nickname);
+                localStorage.setItem("email", answer.userInfo.email);
+                state.userInfo.userId = answer.userInfo.userId;
+                state.userInfo.email = answer.userInfo.email;
+                state.userInfo.nickname = answer.userInfo.nickname;
+              } else {
+                removeUserInfo();
+              }
+            });
+          } else {
+            removeUserInfo();
+            console.log("not login");
+          }
+        } catch (err) {
+          console.error(err.message);
+        }
+      },
       loadingFunctionStart: () => {
         state.isLoading = true;
       },
@@ -218,6 +296,12 @@ export default {
           return text.substring(0, maxLength) + "...";
         }
         return text;
+      },
+      loginSetting: (nickname) => {
+        state.userInfo.nickname = nickname;
+      },
+      logoutSetting: () => {
+        state.userInfo.nickname = null;
       },
       translateArea: (text) => {
         switch (text.toLowerCase()) {
@@ -250,6 +334,8 @@ export default {
           : "https://dgaui.s3.ap-northeast-2.amazonaws.com/emoticon/elder.webp";
       },
     });
+
+    stateFunction.checkLogin();
 
     const style = reactive({
       alertModal: {
@@ -345,8 +431,6 @@ export default {
       });
     };
 
-    const axiosSamplePostTest = () => {};
-
     const goToLoginOrSignup = () => {
       // 개발 모드일 경우
       if (process.env.NODE_ENV == "development") {
@@ -391,7 +475,6 @@ export default {
       goToLoginOrSignup,
       testGet,
       redirectTest,
-      axiosSamplePostTest,
       envTest,
       dbTest,
     };
@@ -588,6 +671,11 @@ body {
       background-color: v-bind("style.alertModal.success.box");
       color: v-bind("style.alertModal.success.text");
     }
+  }
+
+  .copyright {
+    width: 100%;
+    padding-top: 300px;
   }
 
   .fadeInOut {

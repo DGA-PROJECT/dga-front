@@ -300,7 +300,8 @@
             v-for="area in mode.areaArr"
             :key="area"
             v-on:click="changeModeArea(area)"
-            class="btn btn-light"
+            class="btn"
+            :class="area == mode.activeArea ? 'btn-primary' : 'btn-light'"
           >
             {{ stateFunction.translateArea(area) }}
           </button>
@@ -309,7 +310,7 @@
       <div class="rank">
         <div
           class="rankingBox slideRight areaRank"
-          v-for="areaa in mode.areaArr"
+          v-for="areaa in filteredAreas"
           :key="areaa"
         >
           <!-- rankingBox에다가 조건부로 display none  -->
@@ -373,7 +374,7 @@
 </template>
 
 <script>
-import { reactive } from "vue";
+import { reactive, computed } from "vue";
 import axios from "axios";
 
 export default {
@@ -402,6 +403,10 @@ export default {
         revisit: [],
         area: {},
       },
+    });
+
+    const filteredAreas = computed(() => {
+      return mode.areaArr.filter((areaa) => mode.activeArea === areaa);
     });
 
     const mode = reactive({
@@ -448,14 +453,13 @@ export default {
     bgImgInterval();
 
     const getData = () => {
-      axios.get("/api/leader/data").then((res) => {
+      axios.get("/api/leaderboards/").then((res) => {
         data.rank.like = res.data.like;
         data.rank.revisit = res.data.revisit;
         data.rank.kid = res.data.kid;
         data.rank.elder = res.data.elder;
         data.rank.area = res.data.area;
       });
-      console.log(data.rank);
     };
     getData();
 
@@ -471,6 +475,7 @@ export default {
       modifyUrl,
       getMapUrl,
       changeModeArea,
+      filteredAreas,
     };
   },
 };
@@ -842,7 +847,7 @@ body {
     .rank {
       position: relative;
       .areaRank {
-        background-color: v-bind("style.colors.lightYellow");
+        background-color: v-bind("style.colors.lightBlue");
         .inactiveArea {
           padding: 0 !important;
           margin: 0 !important;
