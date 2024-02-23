@@ -289,9 +289,8 @@
             :src="getMapUrl(area)"
             :alt="area"
           />
-
           <img
-            class="tossing"
+            class="pulse"
             src="https://dgaui.s3.ap-northeast-2.amazonaws.com/leader/objects.webp"
             alt=""
           />
@@ -313,7 +312,11 @@
           v-for="areaa in mode.areaArr"
           :key="areaa"
         >
-          <div class="rankingScroll" v-if="mode.activeArea == areaa">
+          <!-- rankingBox에다가 조건부로 display none  -->
+          <div
+            class="rankingScroll"
+            :class="mode.activeArea !== areaa ? 'inactiveArea' : ''"
+          >
             <div
               v-for="(post, idx) in data.rank.area[areaa]"
               :key="post"
@@ -835,11 +838,16 @@ body {
         }
       }
     }
+
     .rank {
       position: relative;
       .areaRank {
         background-color: v-bind("style.colors.lightYellow");
-
+        .inactiveArea {
+          padding: 0 !important;
+          margin: 0 !important;
+          display: none !important;
+        }
         .rankingScroll {
           .card-body {
             .detail1 {
@@ -864,6 +872,7 @@ body {
                 }
               }
             }
+
             .detail2 {
               display: flex;
               p {
