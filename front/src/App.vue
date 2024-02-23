@@ -246,6 +246,7 @@ export default {
           const userId = localStorage.getItem("userId");
           if (idToken && accessToken && email && nickname && userId) {
             const userInfo = { idToken, accessToken, email, nickname, userId };
+            console.log(userInfo);
 
             axios.post("/api/users/", userInfo).then((res) => {
               // confirm이 false이면 로컬스토리지 다 비우기,
