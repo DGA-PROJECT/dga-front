@@ -2,7 +2,7 @@
   <div class="container">
     <div class="bgBox">
       <div
-        v-if="data.currentBgIdx == 0"
+        v-if="mode.currentBgIdx == 0"
         class="bg fadeInOut"
         :style="{
           'background-image': 'url(' + data.bgImg[0] + ')',
@@ -13,7 +13,7 @@
       </div>
 
       <div
-        v-if="data.currentBgIdx == 1"
+        v-if="mode.currentBgIdx == 1"
         class="bg fadeInOut"
         :style="{
           'background-image': 'url(' + data.bgImg[1] + ')',
@@ -24,7 +24,7 @@
       </div>
 
       <div
-        v-if="data.currentBgIdx == 2"
+        v-if="mode.currentBgIdx == 2"
         class="bg fadeInOut"
         :style="{
           'background-image': 'url(' + data.bgImg[2] + ')',
@@ -35,7 +35,7 @@
       </div>
 
       <div
-        v-if="data.currentBgIdx == 3"
+        v-if="mode.currentBgIdx == 3"
         class="bg fadeInOut"
         :style="{
           'background-image': 'url(' + data.bgImg[3] + ')',
@@ -46,7 +46,7 @@
       </div>
 
       <div
-        v-if="data.currentBgIdx == 4"
+        v-if="mode.currentBgIdx == 4"
         class="bg fadeInOut"
         :style="{
           'background-image': 'url(' + data.bgImg[4] + ')',
@@ -56,7 +56,35 @@
         <div class="overlay2"></div>
       </div>
 
-      <div class="hightLight floating">하이라이트</div>
+      <div class="hightLight floating">
+        <div class="content">
+          <div
+            class="imgBox"
+            :style="{
+              backgroundImage:
+                'url(' +
+                data.rankdata.rank?.highlight[mode.hightlightIndex]
+                  ?.thumbnail_url +
+                ')',
+            }"
+          >
+            <!-- <div
+              class="bgImg"
+              :style="{
+                'background-image':
+                  'url(' +
+                  data.rank.highlight[mode.hightlightIndex]?.thumbnail_url +
+                  ')',
+              }"
+            ></div> -->
+            <!-- <img
+              class="highlightImg"
+              :src="data.rank.highlight[mode.hightlightIndex]?.thumbnail_url"
+              alt=""
+            /> -->
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="content">
@@ -395,13 +423,14 @@ export default {
         "https://dgafrontui.s3.ap-northeast-2.amazonaws.com/leaderboard/4.jpg",
         "https://dgafrontui.s3.ap-northeast-2.amazonaws.com/leaderboard/5.jpg",
       ],
-      currentBgIdx: 0,
+
       rank: {
         kid: [],
         elder: [],
         like: [],
         revisit: [],
         area: {},
+        highlight: [],
       },
     });
 
@@ -412,6 +441,7 @@ export default {
     const mode = reactive({
       travelType: "kid",
       activeArea: "seoul",
+
       areaArr: [
         "seoul",
         "chungcheong",
@@ -423,7 +453,21 @@ export default {
         "gyeongsangnam",
         "jeju",
       ],
+      hightlightIndex: 0,
+      currentBgIdx: 0,
     });
+
+    const changeHighlight = () => {
+      setInterval(() => {
+        if (mode.hightlightIndex == 3) {
+          mode.hightlightIndex = 0;
+        } else {
+          mode.hightlightIndex++;
+        }
+      }, 3000);
+    };
+
+    changeHighlight();
 
     const modifyUrl = (idx, kind) => {
       "https://dgaui.s3.ap-northeast-2.amazonaws.com/rank/again/again1.webp";
@@ -443,10 +487,10 @@ export default {
 
     const bgImgInterval = () => {
       setInterval(() => {
-        if (data.currentBgIdx == data.bgImg.length - 1) {
-          data.currentBgIdx = 0;
+        if (mode.currentBgIdx == data.bgImg.length - 1) {
+          mode.currentBgIdx = 0;
         } else {
-          data.currentBgIdx++;
+          mode.currentBgIdx++;
         }
       }, 5000);
     };
@@ -459,6 +503,12 @@ export default {
         data.rank.kid = res.data.kid;
         data.rank.elder = res.data.elder;
         data.rank.area = res.data.area;
+        data.rank.highlight = [
+          res.data.like[0],
+          res.data.revisit[0],
+          res.data.like[1],
+          res.data.revisit[1],
+        ];
       });
     };
     getData();
@@ -543,6 +593,20 @@ body {
       background-color: v-bind("style.colors.red2");
       border-radius: 10px;
       box-shadow: 0px 0px 10px 10px rgba(255, 255, 255, 0.3);
+
+      padding: 5px;
+      .content {
+        height: 300px;
+        width: 100%;
+        .imgBox {
+          border-radius: 5px;
+          width: 100%;
+          height: 190px; /* 높이를 설정하거나 필요에 따라 조절하세요 */
+
+          background-size: cover;
+          background-position: center center;
+        }
+      }
     }
   }
   .content {

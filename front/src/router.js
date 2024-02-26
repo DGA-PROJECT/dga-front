@@ -3,7 +3,6 @@ import Test from "./components/Test.vue";
 import Signup from "./components/Signup.vue";
 import Success from "./components/Success.vue";
 import Leader from "./components/Leader.vue";
-import Board from "./components/Board.vue";
 
 const routes = [
   {
@@ -21,15 +20,6 @@ const routes = [
   {
     path: "/",
     component: Leader,
-  },
-  {
-    path: "/board",
-    redirect: "/board/0",
-  },
-  {
-    path: "/board/:pageNum",
-    component: Board,
-    props: true,
   },
 ];
 
