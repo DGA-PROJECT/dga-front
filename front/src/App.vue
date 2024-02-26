@@ -20,7 +20,7 @@
       </div>
       <div
         :class="state.nav == 'board' ? 'active' : 'list'"
-        v-on:click="stateFunction.changeRouter('board')"
+        v-on:click="redirectToBoards()"
       >
         <i class="fa-solid fa-bars"></i>
         <p v-if="state.nav == 'board'">board</p>
@@ -451,6 +451,10 @@ export default {
       }
     };
 
+    const redirectToBoards = () => {
+      window.location.href = "https://www.daddygo.vacations/boards";
+    };
+
     const testGet = () => {
       axios.get("/api/users/testget").then((res) => {
         alert(res.data);
@@ -481,6 +485,7 @@ export default {
       modalFunction,
       axiosPostTest,
       goToLoginOrSignup,
+      redirectToBoards,
       testGet,
       redirectTest,
       envTest,

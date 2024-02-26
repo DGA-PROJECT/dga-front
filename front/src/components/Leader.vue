@@ -493,7 +493,7 @@ export default {
     const modifyUrl = (idx, kind) => {
       "https://dgaui.s3.ap-northeast-2.amazonaws.com/rank/again/again1.webp";
 
-      if (idx <= 3) {
+      if (idx <= 2) {
         return `https://dgaui.s3.ap-northeast-2.amazonaws.com/rank/${kind}/${kind}${
           idx + 1
         }.webp`;
