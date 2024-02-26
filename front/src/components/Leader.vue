@@ -56,32 +56,26 @@
         <div class="overlay2"></div>
       </div>
 
-      <div class="hightLight floating">
+      <div class="highLight floating">
         <div class="content">
           <div
-            class="imgBox"
+            class="box"
             :style="{
               backgroundImage:
                 'url(' +
-                data.rankdata.rank?.highlight[mode.hightlightIndex]
-                  ?.thumbnail_url +
+                data.rank?.highlight[mode.highlightIndex]?.thumbnail_url +
                 ')',
             }"
           >
-            <!-- <div
-              class="bgImg"
-              :style="{
-                'background-image':
-                  'url(' +
-                  data.rank.highlight[mode.hightlightIndex]?.thumbnail_url +
-                  ')',
-              }"
-            ></div> -->
-            <!-- <img
-              class="highlightImg"
-              :src="data.rank.highlight[mode.hightlightIndex]?.thumbnail_url"
-              alt=""
-            /> -->
+            <div class="info">
+              <p class="title">
+                <!-- {{
+                  showhighlightTitle(data.rank?.highlight, mode.highlightIndex)
+                }} -->
+
+                {{ data.rank?.highlight[mode.highlightIndex]?.title }}
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -318,7 +312,7 @@
             :alt="area"
           />
           <img
-            class="pulse"
+            class="pulse object"
             src="https://dgaui.s3.ap-northeast-2.amazonaws.com/leader/objects.webp"
             alt=""
           />
@@ -453,16 +447,16 @@ export default {
         "gyeongsangnam",
         "jeju",
       ],
-      hightlightIndex: 0,
+      highlightIndex: 0,
       currentBgIdx: 0,
     });
 
     const changeHighlight = () => {
       setInterval(() => {
-        if (mode.hightlightIndex == 3) {
-          mode.hightlightIndex = 0;
+        if (mode.highlightIndex == 3) {
+          mode.highlightIndex = 0;
         } else {
-          mode.hightlightIndex++;
+          mode.highlightIndex++;
         }
       }, 3000);
     };
@@ -519,6 +513,16 @@ export default {
       return `https://dgaui.s3.ap-northeast-2.amazonaws.com/leader/${area}.webp`;
     };
 
+    const showhighlightTitle = (obj, highlightIndex) => {
+      console.log(obj, "여기야");
+      console.log(highlightIndex, "여기야");
+      console.log(obj[highlightIndex]);
+      const babo = obj[highlightIndex];
+      console.log(babo?.title);
+      return babo?.title;
+      // return props.stateFunction.truncateText(title, 3);
+    };
+
     return {
       data,
       mode,
@@ -526,6 +530,7 @@ export default {
       getMapUrl,
       changeModeArea,
       filteredAreas,
+      showhighlightTitle,
     };
   },
 };
@@ -580,11 +585,11 @@ body {
         );
       }
     }
-    .hightLight {
+    .highLight {
       align-self: center;
       position: absolute;
       bottom: -0px;
-      width: 95%;
+      width: 90%;
       height: 200px;
 
       display: flex;
@@ -596,15 +601,30 @@ body {
 
       padding: 5px;
       .content {
-        height: 300px;
+        height: 200px;
         width: 100%;
-        .imgBox {
+        .box {
           border-radius: 5px;
           width: 100%;
-          height: 190px; /* 높이를 설정하거나 필요에 따라 조절하세요 */
+          height: 190px;
 
           background-size: cover;
           background-position: center center;
+          .info {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+            height: 100%;
+            .title {
+              font-size: 1.5em;
+              font-weight: 700;
+            }
+            p {
+              margin: 0;
+            }
+          }
         }
       }
     }
@@ -614,6 +634,9 @@ body {
       width: 100%;
       margin-top: 10px;
       border-radius: 30px 30px 0 0;
+      img {
+        width: 100vw;
+      }
     }
     .title_again {
       background-color: v-bind("style.colors.lightRed");
@@ -881,9 +904,13 @@ body {
       position: relative;
 
       .map {
-        width: 100%;
+        width: 100vw;
         height: 100vw;
         position: relative;
+
+        object {
+          width: 100vw;
+        }
 
         .inactive {
           opacity: 0.3;
