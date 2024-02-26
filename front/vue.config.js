@@ -66,13 +66,6 @@ module.exports = {
             "^/api": "",
           },
         },
-        "/boards/write": {
-          target: "https://www.daddygo.vacations/api/boards/write",
-          changeOrigin: true,
-          pathRewrite: {
-            "^/api": "",
-          },
-        },
       };
     }
   },
