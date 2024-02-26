@@ -182,13 +182,13 @@
         />
       </div>
       <ul class="nav nav-tabs">
-        <li class="nav-item" v-on:click="mode.travelType = 'kid'">
+        <li class="nav-item" v-on:click="mode.travelType = 'KID'">
           <div
             class="nav-link poor"
-            :class="mode.travelType == 'kid' ? 'active' : ''"
+            :class="mode.travelType == 'KID' ? 'active' : ''"
           >
             <img
-              src="https://dgaui.s3.ap-northeast-2.amazonaws.com/emoticon/kid.webp"
+              src="https://dgaui.s3.ap-northeast-2.amazonaws.com/emoticon/KID.webp"
               alt=""
             />
             <p>아이랑 여행</p>
@@ -197,11 +197,11 @@
         <li class="nav-item">
           <div
             class="nav-link poor"
-            :class="mode.travelType == 'elder' ? 'active' : ''"
-            v-on:click="mode.travelType = 'elder'"
+            :class="mode.travelType == 'ELDER' ? 'active' : ''"
+            v-on:click="mode.travelType = 'ELDER'"
           >
             <img
-              src="https://dgaui.s3.ap-northeast-2.amazonaws.com/emoticon/elder.webp"
+              src="https://dgaui.s3.ap-northeast-2.amazonaws.com/emoticon/ELDER.webp"
               alt=""
             />
             <p>효도여행</p>
@@ -210,20 +210,20 @@
       </ul>
       <div
         class="rankingBox slideRight kidOrElder"
-        v-if="mode.travelType == 'kid'"
+        v-if="mode.travelType == 'KID'"
       >
         <div class="rankingScroll">
           <div
-            v-for="(post, idx) in data.rank.kid"
+            v-for="(post, idx) in data.rank.KID"
             :key="post"
             class="card"
             style="width: 18rem"
           >
             <div class="thumbnail">
               <img
-                v-if="modifyUrl(idx, 'kid')"
+                v-if="modifyUrl(idx, 'KID')"
                 class="rankingBadge"
-                :src="modifyUrl(idx, 'kid')"
+                :src="modifyUrl(idx, 'KID')"
               />
               <img
                 :src="post.thumbnail_url"
@@ -265,20 +265,20 @@
       </div>
       <div
         class="rankingBox slideRight kidOrElder"
-        v-if="mode.travelType == 'elder'"
+        v-if="mode.travelType == 'ELDER'"
       >
         <div class="rankingScroll">
           <div
-            v-for="(post, idx) in data.rank.elder"
+            v-for="(post, idx) in data.rank.ELDER"
             :key="post"
             class="card"
             style="width: 18rem"
           >
             <div class="thumbnail">
               <img
-                v-if="modifyUrl(idx, 'elder')"
+                v-if="modifyUrl(idx, 'ELDER')"
                 class="rankingBadge"
-                :src="modifyUrl(idx, 'elder')"
+                :src="modifyUrl(idx, 'ELDER')"
               />
               <img
                 :src="post.thumbnail_url"
@@ -446,8 +446,8 @@ export default {
       ],
 
       rank: {
-        kid: [],
-        elder: [],
+        KID: [],
+        ELDER: [],
         like: [],
         revisit: [],
         area: {},
@@ -460,7 +460,7 @@ export default {
     });
 
     const mode = reactive({
-      travelType: "kid",
+      travelType: "KID",
       activeArea: "seoul",
 
       areaArr: [
@@ -521,8 +521,8 @@ export default {
       axios.get("/api/leaderboards/").then((res) => {
         data.rank.like = res.data.like;
         data.rank.revisit = res.data.revisit;
-        data.rank.kid = res.data.kid;
-        data.rank.elder = res.data.elder;
+        data.rank.KID = res.data.KID;
+        data.rank.ELDER = res.data.ELDER;
         data.rank.area = res.data.area;
         data.rank.highlight = [
           res.data.like[0],
