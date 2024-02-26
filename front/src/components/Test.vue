@@ -9,7 +9,6 @@ import { reactive } from "vue";
 
 export default {
   name: "Test",
-
   setup() {
     const data = reactive({});
 

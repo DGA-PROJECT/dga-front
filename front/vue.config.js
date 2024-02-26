@@ -1,17 +1,3 @@
-// module.exports = {
-//   devServer: {
-//     proxy: {
-//       "/api": {
-//         target: "http://localhost:3000",
-//         changeOrigin: true,
-//         pathRewrite: {
-//           "^/api": "",
-//         },
-//       },
-//     },
-//   },
-// };
-
 module.exports = {
   configureWebpack: (config) => {
     config.devServer = config.devServer || {};
@@ -61,6 +47,13 @@ module.exports = {
         },
         "/api/search": {
           target: "https://www.daddygo.vacations/api/search",
+          changeOrigin: true,
+          pathRewrite: {
+            "^/api": "",
+          },
+        },
+        "/boards/write": {
+          target: "https://www.daddygo.vacations/api/boards/write",
           changeOrigin: true,
           pathRewrite: {
             "^/api": "",

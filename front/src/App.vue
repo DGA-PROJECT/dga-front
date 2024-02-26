@@ -319,7 +319,7 @@ export default {
             return "충청도";
           case "kangwon":
             return "강원도";
-          case "gyungi":
+          case "gyeonggi":
             return "경기도";
           case "jeollanam":
             return "전라남도";

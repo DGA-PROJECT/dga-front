@@ -67,26 +67,40 @@
                 ')',
             }"
           >
-            <div class="info">
+            <div class="deco">
               <img
-                src="https://dgaui.s3.ap-northeast-2.amazonaws.com/emoji-daughter/love.webp"
+                v-if="
+                  data.rank?.highlight[mode.highlightIndex]?.desti_type ==
+                  'LANDMARK'
+                "
+                src="https://dgaui.s3.ap-northeast-2.amazonaws.com/destitype/Landmark.webp"
                 alt=""
               />
-              <p class="title">
-                <!-- {{
-                  showhighlightTitle(data.rank?.highlight, mode.highlightIndex)
-                }} -->
-                <!-- {{
-                  stateFunction.truncateText(
-                    data?.rank?.highlight?.[mode?.highlightIndex].title
-                  )
-                }} -->
 
-                <!-- {{
-                  stateFunction.truncateText(
-                    data?.rank?.highlight?.[mode.highlightIndex]?.title
-                  )
-                }} -->
+              <img
+                v-if="
+                  data.rank?.highlight[mode.highlightIndex]?.desti_type ==
+                  'RESTAURANT'
+                "
+                src="https://dgaui.s3.ap-northeast-2.amazonaws.com/destitype/Restaurant.webp"
+                alt=""
+              />
+              <img
+                v-if="
+                  data.rank?.highlight[mode.highlightIndex]?.desti_type ==
+                  'MARKET'
+                "
+                src="https://dgaui.s3.ap-northeast-2.amazonaws.com/destitype/Market.webp"
+                alt=""
+              />
+            </div>
+
+            <div class="info">
+              <p class="poor">실시간 인기게시글</p>
+              <p class="title">
+                {{
+                  showhighlightTitle(data.rank?.highlight, mode.highlightIndex)
+                }}
               </p>
             </div>
           </div>
@@ -453,7 +467,7 @@ export default {
         "seoul",
         "chungcheong",
         "kangwon",
-        "gyungi",
+        "gyeonggi",
         "jeollanam",
         "jeollabuk",
         "gyeongsangbuk",
@@ -529,17 +543,12 @@ export default {
     const showhighlightTitle = (arr, highlightIndex) => {
       arr;
       highlightIndex;
-      // console.log(arr, "여기야");
-      // console.log(highlightIndex, "여기야");
-      // console.log(arr[highlightIndex]);
-      // const post = arr[highlightIndex];
-      // console.log(
-      //   props.props.stateFunction.truncateText("123123123123123123", 10)
-      // );
-      // return props.props.stateFunction.truncateText("123123123123123123", 10);
-      // const finalTitle = props.stateFunction.truncateText(post?.title, 10);
-      // return finalTitle;
-      // return props.stateFunction.truncateText(title, 3);
+      const title = arr?.[highlightIndex]?.title;
+      const finalTitle = props.stateFunction.truncateText(
+        title ? title : "waiting",
+        12
+      );
+      return finalTitle;
     };
 
     return {
@@ -614,7 +623,7 @@ body {
       display: flex;
       justify-content: center;
       color: white;
-      background-color: v-bind("style.colors.red2");
+      background-color: white;
       border-radius: 10px;
       box-shadow: 0px 0px 20px 2vh rgba(255, 255, 255, 0.5);
 
@@ -623,13 +632,33 @@ body {
         height: 200px;
         width: 100%;
         .box {
-          border-radius: 5px;
+          border-radius: 10px;
           width: 100%;
           height: 190px;
           padding-bottom: 10px;
 
           background-size: cover;
           background-position: center center;
+          border: white solid 2px;
+          .deco {
+            display: flex;
+            position: absolute;
+            top: -40px;
+            left: -20px;
+            justify-content: space-between;
+            width: 95%;
+            padding-top: 5px;
+            img {
+              width: 120px;
+            }
+            p {
+              color: rgba(255, 255, 255, 0.8);
+              margin: 0;
+              font-weight: 500;
+              margin-left: 10px;
+            }
+          }
+
           .info {
             display: flex;
             flex-direction: column;
@@ -637,6 +666,7 @@ body {
             align-items: center;
             width: 100%;
             height: 100%;
+
             .title {
               font-size: 1.5em;
               font-weight: 700;
