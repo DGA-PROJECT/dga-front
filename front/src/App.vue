@@ -452,7 +452,7 @@ export default {
     };
 
     const redirectToBoards = () => {
-      window.location.href = "https://www.daddygo.vacations/boards";
+      window.location.href = "https://www.daddygo.vacations/api/boards";
     };
 
     const testGet = () => {
