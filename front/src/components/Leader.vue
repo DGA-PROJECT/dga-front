@@ -68,12 +68,25 @@
             }"
           >
             <div class="info">
+              <img
+                src="https://dgaui.s3.ap-northeast-2.amazonaws.com/emoji-daughter/love.webp"
+                alt=""
+              />
               <p class="title">
                 <!-- {{
                   showhighlightTitle(data.rank?.highlight, mode.highlightIndex)
                 }} -->
+                <!-- {{
+                  stateFunction.truncateText(
+                    data?.rank?.highlight?.[mode?.highlightIndex].title
+                  )
+                }} -->
 
-                {{ data.rank?.highlight[mode.highlightIndex]?.title }}
+                <!-- {{
+                  stateFunction.truncateText(
+                    data?.rank?.highlight?.[mode.highlightIndex]?.title
+                  )
+                }} -->
               </p>
             </div>
           </div>
@@ -513,13 +526,19 @@ export default {
       return `https://dgaui.s3.ap-northeast-2.amazonaws.com/leader/${area}.webp`;
     };
 
-    const showhighlightTitle = (obj, highlightIndex) => {
-      console.log(obj, "여기야");
-      console.log(highlightIndex, "여기야");
-      console.log(obj[highlightIndex]);
-      const babo = obj[highlightIndex];
-      console.log(babo?.title);
-      return babo?.title;
+    const showhighlightTitle = (arr, highlightIndex) => {
+      arr;
+      highlightIndex;
+      // console.log(arr, "여기야");
+      // console.log(highlightIndex, "여기야");
+      // console.log(arr[highlightIndex]);
+      // const post = arr[highlightIndex];
+      // console.log(
+      //   props.props.stateFunction.truncateText("123123123123123123", 10)
+      // );
+      // return props.props.stateFunction.truncateText("123123123123123123", 10);
+      // const finalTitle = props.stateFunction.truncateText(post?.title, 10);
+      // return finalTitle;
       // return props.stateFunction.truncateText(title, 3);
     };
 
@@ -597,7 +616,7 @@ body {
       color: white;
       background-color: v-bind("style.colors.red2");
       border-radius: 10px;
-      box-shadow: 0px 0px 10px 10px rgba(255, 255, 255, 0.3);
+      box-shadow: 0px 0px 20px 2vh rgba(255, 255, 255, 0.5);
 
       padding: 5px;
       .content {
@@ -607,6 +626,7 @@ body {
           border-radius: 5px;
           width: 100%;
           height: 190px;
+          padding-bottom: 10px;
 
           background-size: cover;
           background-position: center center;

@@ -411,7 +411,7 @@ export default {
         setTimeout(() => {
           modalState.normal = false;
           modalState.normalMessage = null;
-        }, 3000);
+        }, 2500);
       },
       warn: (content) => {
         modalState.warn = true;
@@ -419,7 +419,7 @@ export default {
         setTimeout(() => {
           modalState.warn = false;
           modalState.warnMessage = null;
-        }, 3000);
+        }, 2500);
       },
       success: (content) => {
         modalState.success = true;
@@ -427,7 +427,7 @@ export default {
         setTimeout(() => {
           modalState.success = false;
           modalState.successMessage = null;
-        }, 3000);
+        }, 2500);
       },
     });
 
