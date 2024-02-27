@@ -3,6 +3,7 @@ import Test from "./components/Test.vue";
 import Signup from "./components/Signup.vue";
 import Success from "./components/Success.vue";
 import Leader from "./components/Leader.vue";
+import Search from "./components/Search.vue";
 
 const routes = [
   {
@@ -20,6 +21,10 @@ const routes = [
   {
     path: "/",
     component: Leader,
+  },
+  {
+    path: "/search",
+    component: Search,
   },
 ];
 

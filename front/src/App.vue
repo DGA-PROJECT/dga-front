@@ -10,6 +10,15 @@
       </div>
     </nav>
 
+    <router-view
+      :modalState="modalState"
+      :modalFunction="modalFunction"
+      :stateFunction="stateFunction"
+      :state="state"
+      :style="style"
+      class="router"
+    ></router-view>
+
     <nav class="navBot">
       <div
         :class="state.nav == 'home' ? 'active' : 'list'"
@@ -41,15 +50,6 @@
         <p v-if="state.nav == 'myplan'">myplan</p>
       </div>
     </nav>
-
-    <router-view
-      :modalState="modalState"
-      :modalFunction="modalFunction"
-      :stateFunction="stateFunction"
-      :state="state"
-      :style="style"
-      class="router"
-    ></router-view>
 
     <Loading v-if="state.isLoading" class="fadeInOutLoading" />
     <div class="copyright">
@@ -108,6 +108,20 @@
           <a
             href="https://kr.freepik.com/free-vector/royal-game-buttons-animation-set_45244416.htm#query=rank%20title&position=0&from_view=search&track=ais&uuid=6c87cbd4-8bdb-4b43-825d-ac4ea5db2383"
             >작가 upklyak onFreepik</a
+          >
+        </div>
+        <div class="box">
+          <p>한식</p>
+          <a
+            href="https://www.freepik.com/free-vector/hand-drawn-flat-design-korean-food-illustration_23441691.htm#fromView=search&page=2&position=41&uuid=7d7dab7b-c2e9-4cfb-80f7-10edada39ead"
+            >Freepik</a
+          >
+        </div>
+        <div class="box">
+          <p>랜드마크</p>
+          <a
+            href="https://www.freepik.com/free-vector/south-korea-tourism-horizontal-composition-with-doodle-style-pictures-traditional-items-cultural-sights-text-illustration_7252487.htm#fromView=search&page=1&position=2&uuid=2d51a138-fa20-4fbf-b36b-2a1f14a7449c"
+            >Image by macrovector on Freepik</a
           >
         </div>
       </div>
@@ -337,9 +351,9 @@ export default {
         }
       },
       imgLinkKidOrElder: (type) => {
-        return type == "kid"
-          ? "https://dgaui.s3.ap-northeast-2.amazonaws.com/emoticon/kid.webp"
-          : "https://dgaui.s3.ap-northeast-2.amazonaws.com/emoticon/elder.webp";
+        return type == "KID"
+          ? "https://dgaui.s3.ap-northeast-2.amazonaws.com/emoticon/KID.webp"
+          : "https://dgaui.s3.ap-northeast-2.amazonaws.com/emoticon/ELDER.webp";
       },
     });
 
@@ -492,6 +506,18 @@ export default {
       dbTest,
     };
   },
+  watch: {
+    $route(to, form) {
+      if (to.path !== form.path) {
+        const path = this.$router.currentRoute.value.path.split("/")[1];
+        if (path == "") {
+          this.state.nav = "home";
+        } else {
+          this.state.nav = this.$router.currentRoute.value.path.split("/")[1];
+        }
+      }
+    },
+  },
 };
 </script>
 
@@ -507,7 +533,6 @@ body {
 }
 
 .containerApp {
-  height: 100vh;
   padding: 0;
 
   .blank {
@@ -543,10 +568,10 @@ body {
   }
 
   .navBot {
-    width: 100vw;
+    width: 100%;
     position: fixed;
     bottom: 0;
-    height: 90px;
+    height: 60px;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -560,7 +585,7 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 90px;
+      height: 60px;
       color: v-bind("style.colors.white1");
       font-size: 1.5em;
     }
@@ -692,9 +717,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    h1 {
-    }
 
     .boxOut {
       display: flex;
