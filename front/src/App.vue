@@ -297,10 +297,10 @@ export default {
       loadingFunctionStart: () => {
         state.isLoading = true;
       },
-      loadingFunctionEnd: () => {
+      loadingFunctionEnd: (time) => {
         setTimeout(() => {
           state.isLoading = false;
-        }, 2000);
+        }, time);
       },
       changeRouter: (routePath) => {
         state.nav = routePath;
