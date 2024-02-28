@@ -308,6 +308,10 @@ export default {
           router.push("/");
         } else {
           router.push("/" + routePath);
+          window.scrollTo({
+            top: 0,
+            behavior: "smooth", // 부드러운 스크롤 적용 (선택적)
+          });
         }
       },
       emitUserInfo: (result) => {
