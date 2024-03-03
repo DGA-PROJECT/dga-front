@@ -479,7 +479,7 @@ export default {
     };
 
     const testGet = () => {
-      axios.get("/api/search/testget").then((res) => {
+      axios.get("/api/searches/testget").then((res) => {
         alert(res.data);
       });
     };
@@ -489,7 +489,7 @@ export default {
     // };
 
     const envTest = () => {
-      axios.get("/api/search/envtest").then((res) => {
+      axios.get("/api/searches/envtest").then((res) => {
         alert(res.data);
       });
     };
