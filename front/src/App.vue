@@ -132,9 +132,14 @@
       <div class="forever">
         하잉하잉 CICD테스트
         <button class="btn btn-primary" v-on:click="testGet()">
-          login 백단 GET 테스트
+          백단 GET 테스트
         </button>
-        <button class="btn btn-danger" v-on:click="axiosPostTest()">
+
+        <button class="btn btn-success" v-on:click="envTest()">
+          login 백단 환경변수 테스트
+        </button>
+
+        <!-- <button class="btn btn-danger" v-on:click="axiosPostTest()">
           login 백단 POST 테스트
         </button>
 
@@ -181,7 +186,7 @@
           >
             success alert
           </button>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -474,14 +479,14 @@ export default {
     };
 
     const testGet = () => {
-      axios.get("/api/users/testget").then((res) => {
+      axios.get("/api/search/testget").then((res) => {
         alert(res.data);
       });
     };
 
-    const redirectTest = () => {
-      window.location.href = "https://www.daddygo.vacations/signup";
-    };
+    // const redirectTest = () => {
+    //   window.location.href = "https://www.daddygo.vacations/signup";
+    // };
 
     const envTest = () => {
       axios.get("/api/users/envtest").then((res) => {
@@ -489,11 +494,11 @@ export default {
       });
     };
 
-    const dbTest = () => {
-      axios.get("/api/users/dbtest").then((res) => {
-        alert(res.data);
-      });
-    };
+    // const dbTest = () => {
+    //   axios.get("/api/users/dbtest").then((res) => {
+    //     alert(res.data);
+    //   });
+    // };
 
     return {
       state,
@@ -505,9 +510,9 @@ export default {
       goToLoginOrSignup,
       redirectToBoards,
       testGet,
-      redirectTest,
+      // redirectTest,
       envTest,
-      dbTest,
+      // dbTest,
     };
   },
   watch: {
