@@ -132,7 +132,7 @@
       <div class="forever">
         하잉하잉 CICD테스트
         <button class="btn btn-primary" v-on:click="testGet()">
-          백단 GET 테스트
+          search 백단 GET 테스트
         </button>
 
         <button class="btn btn-success" v-on:click="envTest()">
