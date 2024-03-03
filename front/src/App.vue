@@ -489,7 +489,7 @@ export default {
     // };
 
     const envTest = () => {
-      axios.get("/api/users/envtest").then((res) => {
+      axios.get("/api/search/envtest").then((res) => {
         alert(res.data);
       });
     };
