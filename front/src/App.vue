@@ -42,21 +42,21 @@
         <i class="fa-solid fa-magnifying-glass-plus"></i>
         <p v-if="state.nav == 'search'">search</p>
       </div>
-      <div
+      <!-- <div
         :class="state.nav == 'myplan' ? 'active' : 'list'"
         v-on:click="stateFunction.changeRouter('myplan')"
       >
         <i class="fa-solid fa-cart-shopping"></i>
         <p v-if="state.nav == 'myplan'">myplan</p>
-      </div>
+      </div> -->
     </nav>
 
     <Loading v-if="state.isLoading" class="fadeInOutLoading" />
     <div class="copyright">
-      <h1>디자인 출처</h1>
+      <h5>디자인 출처</h5>
       <div class="boxOut">
         <div class="box">
-          <p>애얼굴</p>
+          <p>애얼굴 :</p>
           <a
             href="https://www.freepik.com/free-vector/flat-emoticons-cute-girl_1011883.htm#page=2&query=kide%20emotion&position=35&from_view=search&track=ais&uuid=b582ada2-0930-4c99-92a5-ac2bfb97e327"
             >Freepik</a
@@ -64,7 +64,7 @@
         </div>
 
         <div class="box">
-          <p>할아버지</p>
+          <p>할아버지 :</p>
           <a
             href="https://www.freepik.com/free-vector/flat-dia-de-los-abuelos-illustration_13914243.htm#page=8&query=grandfather&position=46&from_view=search&track=sph&uuid=4ced87a1-5484-4450-b1be-27a355954024"
             >Freepik</a
@@ -72,7 +72,7 @@
         </div>
 
         <div class="box">
-          <p>아빠+애들</p>
+          <p>아빠+애들 :</p>
           <a
             href="https://www.freepik.com/free-vector/happy-flat-design-father-s-day-family_7709910.htm#query=father&position=0&from_view=search&track=sph&uuid=7a11906a-a809-4aa4-8fd2-623d8126532b"
             >Freepik</a
@@ -80,15 +80,7 @@
         </div>
 
         <div class="box">
-          <p>엄마</p>
-          <a
-            href="https://www.freepik.com/free-vector/motherhood-concept-illustration_7119281.htm#page=6&query=mother&position=21&from_view=search&track=sph&uuid=d72b2bea-fce8-4f6f-9523-b2079475a2ab"
-            >Image by storyset on Freepik</a
-          >
-        </div>
-
-        <div class="box">
-          <p>메달사진</p>
+          <p>메달사진 :</p>
           <a
             href="https://kr.freepik.com/free-vector/collection-of-top-10-badges_11520190.htm#page=5&query=ranking&position=7&from_view=search&track=ais&uuid=4d05c637-6642-4949-be32-61b9ec501ed2"
             >Freepik</a
@@ -96,7 +88,7 @@
         </div>
 
         <div class="box">
-          <p>한반도</p>
+          <p>한반도 :</p>
           <a
             href="https://kr.freepik.com/free-vector/hand-drawn-south-korea-map-illustration_30121023.htm#query=korea%20map&position=3[%E2%80%A6]1-d7b8-4ea4-858a-1c164e88be71"
             >Freepik</a
@@ -104,21 +96,21 @@
         </div>
 
         <div class="box">
-          <p>왕관 타이틀</p>
+          <p>왕관 타이틀 :</p>
           <a
             href="https://kr.freepik.com/free-vector/royal-game-buttons-animation-set_45244416.htm#query=rank%20title&position=0&from_view=search&track=ais&uuid=6c87cbd4-8bdb-4b43-825d-ac4ea5db2383"
             >작가 upklyak onFreepik</a
           >
         </div>
         <div class="box">
-          <p>한식</p>
+          <p>한식 :</p>
           <a
             href="https://www.freepik.com/free-vector/hand-drawn-flat-design-korean-food-illustration_23441691.htm#fromView=search&page=2&position=41&uuid=7d7dab7b-c2e9-4cfb-80f7-10edada39ead"
             >Freepik</a
           >
         </div>
         <div class="box">
-          <p>랜드마크</p>
+          <p>랜드마크 :</p>
           <a
             href="https://www.freepik.com/free-vector/south-korea-tourism-horizontal-composition-with-doodle-style-pictures-traditional-items-cultural-sights-text-illustration_7252487.htm#fromView=search&page=1&position=2&uuid=2d51a138-fa20-4fbf-b36b-2a1f14a7449c"
             >Image by macrovector on Freepik</a
@@ -130,7 +122,6 @@
     <!-- alert모달들 끝 -->
     <div class="dev">
       <div class="forever">
-        하잉하잉 CICD테스트
         <button class="btn btn-primary" v-on:click="testGet()">
           search 백단 GET 테스트
         </button>
@@ -587,7 +578,7 @@ body {
     background-color: v-bind("style.colors.blue2");
     border-radius: 40px;
     padding: 5px;
-    z-index: 1;
+    z-index: 3;
     box-shadow: 10px 10px 10px 10px rgba(0, 0, 0, 0.3);
 
     .list {
@@ -722,24 +713,23 @@ body {
 
   .copyright {
     width: 100%;
-    padding-top: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .boxOut {
+    margin-top: 30px;
+    h5 {
       display: flex;
       justify-content: center;
+    }
+
+    .boxOut {
+      width: 100%;
+      display: flex;
       flex-wrap: wrap;
+      justify-content: center;
+
       .box {
-        width: 100%;
         display: flex;
-        justify-content: center;
-        background-color: v-bind("style.colors.lightRed");
-        margin: 10px;
         border-radius: 5px;
         p {
-          color: v-bind("style.colors.blue4");
+          color: grey;
           margin: 0;
           margin-right: 10px;
         }

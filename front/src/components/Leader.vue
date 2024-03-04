@@ -115,7 +115,7 @@
           alt=""
         />
       </div>
-      <div class="rankingBox slideLeft revisit">
+      <div class="rankingBox revisit">
         <div class="rankingScroll">
           <div
             v-for="(post, idx) in data.rank.revisit"
