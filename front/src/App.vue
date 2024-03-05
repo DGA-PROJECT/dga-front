@@ -130,6 +130,10 @@
           login 백단 환경변수 테스트
         </button>
 
+        <button class="btn btn-success" v-on:click="testLambda()">
+          람다 테스트
+        </button>
+
         <!-- <button class="btn btn-danger" v-on:click="axiosPostTest()">
           login 백단 POST 테스트
         </button>
@@ -453,6 +457,19 @@ export default {
       });
     };
 
+    const testLambda = () => {
+      axios
+        .get(
+          "https://b1mnag2yn8.execute-api.ap-northeast-2.amazonaws.com/default/muzzifuc"
+        )
+        .then((res) => {
+          alert(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
+
     const goToLoginOrSignup = () => {
       // 개발 모드일 경우
       if (process.env.NODE_ENV == "development") {
@@ -504,6 +521,7 @@ export default {
       // redirectTest,
       envTest,
       // dbTest,
+      testLambda,
     };
   },
   watch: {

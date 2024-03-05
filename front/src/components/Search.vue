@@ -299,9 +299,9 @@
       </nav>
     </div>
 
-    {{ selected }}
+    <!-- {{ selected }} -->
 
-    <div class="dev">
+    <!-- <div class="dev">
       <button class="btn btn-primary" v-on:click="testRouter()">
         라우터 테스트
       </button>
@@ -314,7 +314,7 @@
       <button class="btn btn-light" v-on:click="testParams()">
         라우터 파라미터
       </button>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -486,7 +486,7 @@ export default {
     const submit = () => {
       props.stateFunction.loadingFunctionStart();
       axios
-        .post("/api/search", { maxIdx: mode.maxIdx, selected: selected })
+        .post("/api/searches", { maxIdx: mode.maxIdx, selected: selected })
         .then((res) => {
           data.posts = res.data.posts;
         })
