@@ -119,8 +119,7 @@
       </div>
     </div>
 
-    <!-- alert모달들 끝 -->
-    <div class="dev">
+    <!-- <div class="dev">
       <div class="forever">
         <button class="btn btn-primary" v-on:click="testGet()">
           search 백단 GET 테스트
@@ -134,7 +133,7 @@
           람다 테스트
         </button>
 
-        <!-- <button class="btn btn-danger" v-on:click="axiosPostTest()">
+        <button class="btn btn-danger" v-on:click="axiosPostTest()">
           login 백단 POST 테스트
         </button>
 
@@ -181,11 +180,10 @@
           >
             success alert
           </button>
-        </div> -->
+        </div>
       </div>
-    </div>
+    </div> -->
 
-    <!-- alert 모달들 -->
     <div
       class="alertMessage normal_bg fadeInOutLoading"
       v-if="modalState.normal"
@@ -217,7 +215,6 @@
         <p class="poor">{{ modalState.successMessage }}</p>
       </div>
     </div>
-    <!-- alert 모달들 -->
 
     <div class="blank"></div>
   </div>

@@ -429,18 +429,23 @@ export default {
     };
 
     const changePg = (idx) => {
-      mode.pgIdx = idx;
+      mode.pgIdx = idx - 1;
       window.scrollTo({
         top: 0,
         behavior: "smooth", // 부드러운 스크롤 적용 (선택적)
       });
-
-      if (mode.pgIdx + 1 == mode.maxPgIdx) {
+      console.log(mode.pgIdx);
+      console.log(mode.maxPgIdx);
+      if (mode.pgIdx > mode.maxPgIdx) {
         console.log(mode.pgIdx);
         console.log(mode.maxPgIdx);
         props.modalFunction.warn("최대페이지에요");
-      } else if (mode.pgIdx == 0) {
+        mode.pgIdx--;
+      } else if (mode.pgIdx < -1) {
         props.modalFunction.warn("최소페이지에요");
+        console.log(mode.pgIdx, "페이지 인덱스");
+        console.log(idx, "그냥인덱스");
+        mode.pgIdx = 0;
       } else {
         mode.pgIdx++;
         window.scrollTo({
