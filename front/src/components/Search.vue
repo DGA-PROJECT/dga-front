@@ -436,6 +436,8 @@ export default {
       });
 
       if (mode.pgIdx + 1 == mode.maxPgIdx) {
+        console.log(mode.pgIdx);
+        console.log(mode.maxPgIdx);
         props.modalFunction.warn("최대페이지에요");
       } else if (mode.pgIdx == 0) {
         props.modalFunction.warn("최소페이지에요");
