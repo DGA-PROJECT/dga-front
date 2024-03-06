@@ -131,6 +131,10 @@
     <button class="btn btn-primary" v-on:click="testGet()">
       auth 백단 GET 테스트
     </button>
+
+    <button class="btn btn-danger" v-on:click="testGetWithoutAuth()">
+      auth 백단 GET 테스트 (authorization 없음)
+    </button>
     <!-- <div class="dev">
       <div class="forever">
         <button class="btn btn-primary" v-on:click="testGet()">
@@ -530,6 +534,16 @@ export default {
     };
 
     const testGet = () => {
+      axios
+        .get("/api/users/testget", {
+          headers: { Authorization: localStorage.getItem("idToken") },
+        })
+        .then((res) => {
+          alert(res.data);
+        });
+    };
+
+    const testGetWithoutAuth = () => {
       axios.get("/api/users/testget").then((res) => {
         alert(res.data);
       });
@@ -566,6 +580,7 @@ export default {
       // dbTest,
       testLambda,
       clickLogOut,
+      testGetWithoutAuth,
     };
   },
   watch: {
