@@ -359,6 +359,8 @@ export default {
       goToPost: (postId) => {
         state.isLoading = true;
         setTimeout(() => {
+          state.isLoading = false;
+
           window.location.href = `https://www.daddygo.vacations/api/boards/${postId}`;
         }, 2000);
       },
