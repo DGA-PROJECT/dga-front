@@ -128,6 +128,9 @@
       </div>
     </div>
 
+    <button class="btn btn-primary" v-on:click="testGet()">
+      auth 백단 GET 테스트
+    </button>
     <!-- <div class="dev">
       <div class="forever">
         <button class="btn btn-primary" v-on:click="testGet()">
@@ -527,7 +530,7 @@ export default {
     };
 
     const testGet = () => {
-      axios.get("/api/searches/testget").then((res) => {
+      axios.get("/api/users/testget").then((res) => {
         alert(res.data);
       });
     };
