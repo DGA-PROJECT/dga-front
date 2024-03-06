@@ -3,10 +3,19 @@
     <nav class="navTop">
       <p>mode : {{ state.mode }}</p>
 
-      <div class="navBox" v-on:click="goToLoginOrSignup()">
+      <div class="navBox">
         <i class="fa-solid fa-user"></i>
-        <p v-if="state.userInfo?.nickname">{{ state.userInfo?.nickname }}</p>
-        <p v-if="!state.userInfo?.nickname">로그인/회원가입</p>
+        <p v-if="state.userInfo.nickname">{{ state.userInfo?.nickname }}</p>
+        <p v-if="!state.userInfo.nickname" v-on:click="goToLoginOrSignup()">
+          로그인/회원가입
+        </p>
+        <button
+          v-if="state.userInfo.nickname"
+          class="btn btn-secondary logoutBtn"
+          v-on:click="clickLogOut()"
+        >
+          <i class="fa-solid fa-right-from-bracket"></i>
+        </button>
       </div>
     </nav>
 
@@ -244,7 +253,7 @@ export default {
       nav: extractPath(),
       userInfo: {},
       logOutUrl:
-        process.env.Node_env == "development"
+        process.env.NODE_ENV == "development"
           ? "https://test-dom.auth.ap-northeast-2.amazoncognito.com/logout?client_id=6crfr295su16kvf3uta0t29vi9&logout_uri=http://localhost:8080/logout"
           : "https://dga-dom.auth.ap-northeast-2.amazoncognito.com/logout?client_id=3jpsb7a7osuntcg2rdr7des17q&logout_uri=https://www.daddygo.vacations/logout",
     });
@@ -258,42 +267,52 @@ export default {
       state.userInfo = {};
     };
 
+    console.log(state.logOutUrl);
+
     const stateFunction = reactive({
       checkLogin: () => {
-        try {
-          const idToken = localStorage.getItem("idToken");
-          const accessToken = localStorage.getItem("accessToken");
-          const email = localStorage.getItem("email");
-          const nickname = localStorage.getItem("nickname");
-          const userId = localStorage.getItem("userId");
-          if (idToken && accessToken && email && nickname && userId) {
-            const userInfo = { idToken, accessToken, email, nickname, userId };
-            console.log(userInfo);
+        setTimeout(() => {
+          try {
+            const idToken = localStorage.getItem("idToken");
+            const accessToken = localStorage.getItem("accessToken");
+            const email = localStorage.getItem("email");
+            const nickname = localStorage.getItem("nickname");
+            const userId = localStorage.getItem("userId");
+            if (idToken && accessToken && email && nickname && userId) {
+              const userInfo = {
+                idToken,
+                accessToken,
+                email,
+                nickname,
+                userId,
+              };
+              console.log(userInfo);
 
-            axios.post("/api/users/", userInfo).then((res) => {
-              // confirm이 false이면 로컬스토리지 다 비우기,
-              // confirm이 true이면 state.userInfo를 바꾸기 + 로컬스토리지 세팅
-              const answer = JSON.parse(res.data);
-
-              if (answer.confirm) {
+              axios.post("/api/users/", userInfo).then((res) => {
+                // confirm이 false이면 로컬스토리지 다 비우기,
                 // confirm이 true이면 state.userInfo를 바꾸기 + 로컬스토리지 세팅
-                localStorage.setItem("userId", answer.userInfo.userId);
-                localStorage.setItem("nickname", answer.userInfo.nickname);
-                localStorage.setItem("email", answer.userInfo.email);
-                state.userInfo.userId = answer.userInfo.userId;
-                state.userInfo.email = answer.userInfo.email;
-                state.userInfo.nickname = answer.userInfo.nickname;
-              } else {
-                removeUserInfo();
-              }
-            });
-          } else {
-            removeUserInfo();
-            console.log("not login");
+                const answer = JSON.parse(res.data);
+
+                if (answer.confirm) {
+                  // confirm이 true이면 state.userInfo를 바꾸기 + 로컬스토리지 세팅
+                  localStorage.setItem("userId", answer.userInfo.userId);
+                  localStorage.setItem("nickname", answer.userInfo.nickname);
+                  localStorage.setItem("email", answer.userInfo.email);
+                  state.userInfo.userId = answer.userInfo.userId;
+                  state.userInfo.email = answer.userInfo.email;
+                  state.userInfo.nickname = answer.userInfo.nickname;
+                } else {
+                  removeUserInfo();
+                }
+              });
+            } else {
+              removeUserInfo();
+              console.log("not login");
+            }
+          } catch (err) {
+            console.error(err.message);
           }
-        } catch (err) {
-          console.error(err.message);
-        }
+        }, 100);
       },
       loadingFunctionStart: () => {
         state.isLoading = true;
@@ -367,6 +386,14 @@ export default {
 
           window.location.href = `https://www.daddygo.vacations/api/boards/${postId}`;
         }, 2000);
+      },
+      removeUserInfo: () => {
+        localStorage.removeItem("userId");
+        localStorage.removeItem("idToken");
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("email");
+        localStorage.removeItem("nickname");
+        state.userInfo = {};
       },
     });
 
@@ -495,6 +522,10 @@ export default {
       window.location.href = "https://www.daddygo.vacations/api/boards";
     };
 
+    const clickLogOut = () => {
+      window.location.href = state.logOutUrl;
+    };
+
     const testGet = () => {
       axios.get("/api/searches/testget").then((res) => {
         alert(res.data);
@@ -531,6 +562,7 @@ export default {
       envTest,
       // dbTest,
       testLambda,
+      clickLogOut,
     };
   },
   watch: {
@@ -590,6 +622,18 @@ body {
       }
       i {
         margin-right: 15px;
+      }
+
+      .logoutBtn {
+        display: flex;
+        justify-content: center;
+        width: 30px;
+        padding: 5px;
+        margin-left: 5px;
+        i {
+          padding: 0;
+          margin: 0;
+        }
       }
     }
   }

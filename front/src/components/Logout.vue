@@ -19,14 +19,12 @@ export default {
   setup(props) {
     const data = reactive({});
     // 토큰을 백단에 보내는 함수.
-    props;
+    const nickname = localStorage.getItem("nickname");
 
     const logOut = () => {
-      props.modalFunction.success(
-        `${response.result.nickname}님! 로그아웃 되었습니다!`
-      );
+      props.modalFunction.success(`${nickname}님! 로그아웃 되었습니다!`);
 
-      props.stateFuntion.removeUserInfo;
+      props.stateFunction.removeUserInfo();
 
       router.push("/");
     };

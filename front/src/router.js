@@ -4,6 +4,7 @@ import Signup from "./components/Signup.vue";
 import Success from "./components/Success.vue";
 import Leader from "./components/Leader.vue";
 import Search from "./components/Search.vue";
+import Logout from "./components/Logout.vue";
 
 const routes = [
   {
@@ -25,6 +26,10 @@ const routes = [
   {
     path: "/search",
     component: Search,
+  },
+  {
+    path: "/logout",
+    component: Logout,
   },
 ];
 
