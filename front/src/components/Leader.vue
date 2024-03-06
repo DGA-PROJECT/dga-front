@@ -57,7 +57,14 @@
       </div>
 
       <div class="highLight floating">
-        <div class="content">
+        <div
+          class="content"
+          v-on:click="
+            stateFunction.goToPost(
+              data.rank?.highlight[mode.highlightIndex]?.post_id
+            )
+          "
+        >
           <div
             class="box"
             :style="{
@@ -122,6 +129,7 @@
             :key="post"
             class="card"
             style="width: 18rem"
+            v-on:click="stateFunction.goToPost(post.post_id)"
           >
             <div class="thumbnail">
               <img
@@ -218,6 +226,7 @@
             :key="post"
             class="card"
             style="width: 18rem"
+            v-on:click="stateFunction.goToPost(post.post_id)"
           >
             <div class="thumbnail">
               <img
@@ -273,6 +282,7 @@
             :key="post"
             class="card"
             style="width: 18rem"
+            v-on:click="stateFunction.goToPost(post.post_id)"
           >
             <div class="thumbnail">
               <img
@@ -372,6 +382,7 @@
               :key="post"
               class="card"
               style="width: 18rem"
+              v-on:click="stateFunction.goToPost(post.post_id)"
             >
               <div class="thumbnail">
                 <img

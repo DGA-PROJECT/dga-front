@@ -223,6 +223,7 @@
         class="card"
         v-for="post in data.posts.slice(mode.pgIdx * 10, (mode.pgIdx + 1) * 10)"
         :key="post"
+        v-on:click="stateFunction.goToPost(post.post_id)"
       >
         <div class="card-body post">
           <div class="row">

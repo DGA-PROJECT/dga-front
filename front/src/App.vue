@@ -356,6 +356,12 @@ export default {
           ? "https://dgaui.s3.ap-northeast-2.amazonaws.com/emoticon/KID.webp"
           : "https://dgaui.s3.ap-northeast-2.amazonaws.com/emoticon/ELDER.webp";
       },
+      goToPost: (postId) => {
+        state.isLoading = true;
+        setTimeout(() => {
+          window.location.href = `https://www.daddygo.vacations/api/boards/${postId}`;
+        }, 2000);
+      },
     });
 
     stateFunction.checkLogin();
