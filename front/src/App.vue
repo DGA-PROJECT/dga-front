@@ -255,7 +255,7 @@ export default {
       logOutUrl:
         process.env.NODE_ENV == "development"
           ? "https://test-dom.auth.ap-northeast-2.amazoncognito.com/logout?client_id=6crfr295su16kvf3uta0t29vi9&logout_uri=http://localhost:8080/logout"
-          : "https://bam-dom.auth.ap-northeast-2.amazoncognito.com/logout?client_id=3jpsb7a7osuntcg2rdr7des17q&logout_uri=https://www.daddygo.vacations/logout",
+          : "https://bam-dom.auth.ap-northeast-2.amazoncognito.com/logout?client_id=1i3jgpcnaf4e29pbe1l723q3ij&logout_uri=https://www.daddygo.vacations/logout",
     });
 
     const removeUserInfo = () => {
