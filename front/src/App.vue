@@ -526,7 +526,7 @@ export default {
     };
 
     const redirectToBoards = () => {
-      window.location.href = "https://www.daddygo.vacations/api/boards";
+      window.location.href = "https://www.daddygo.vacations/api/boards/page";
     };
 
     const clickLogOut = () => {
