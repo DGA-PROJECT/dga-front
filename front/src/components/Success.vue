@@ -88,6 +88,7 @@ export default {
       const accessToken = tokenObj.access_token;
 
       //토큰 저장
+
       localStorage.setItem("idToken", idToken);
       localStorage.setItem("accessToken", accessToken);
 

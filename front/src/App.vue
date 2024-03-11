@@ -127,7 +127,7 @@
         </div>
       </div>
     </div>
-    <!-- 
+
     <button class="btn btn-primary" v-on:click="testGet()">
       auth 백단 GET 테스트
     </button>
@@ -198,7 +198,7 @@
           </button>
         </div>
       </div>
-    </div> -->
+    </div>
 
     <div
       class="alertMessage normal_bg fadeInOutLoading"
@@ -274,52 +274,63 @@ export default {
       state.userInfo = {};
     };
 
-    console.log(state.logOutUrl);
-
     const stateFunction = reactive({
       checkLogin: () => {
-        setTimeout(() => {
-          try {
-            const idToken = localStorage.getItem("idToken");
-            const accessToken = localStorage.getItem("accessToken");
-            const email = localStorage.getItem("email");
-            const nickname = localStorage.getItem("nickname");
-            const userId = localStorage.getItem("userId");
-            if (idToken && accessToken && email && nickname && userId) {
-              const userInfo = {
-                idToken,
-                accessToken,
-                email,
-                nickname,
-                userId,
-              };
-              console.log(userInfo);
+        const currentPath = window.location.pathname;
 
-              axios.post("/api/users/", userInfo).then((res) => {
-                // confirm이 false이면 로컬스토리지 다 비우기,
-                // confirm이 true이면 state.userInfo를 바꾸기 + 로컬스토리지 세팅
-                const answer = JSON.parse(res.data);
+        // 결과 출력
+        // console.log("현재 경로:", currentPath);
 
-                if (answer.confirm) {
+        if (currentPath !== "/success") {
+          // console.log("이메일", localStorage.getItem("email"));
+
+          setTimeout(() => {
+            try {
+              const idToken = localStorage.getItem("idToken");
+              const accessToken = localStorage.getItem("accessToken");
+              const email = localStorage.getItem("email");
+              const nickname = localStorage.getItem("nickname");
+              const userId = localStorage.getItem("userId");
+              if (idToken && accessToken && email && nickname && userId) {
+                const userInfo = {
+                  idToken,
+                  accessToken,
+                  email,
+                  nickname,
+                  userId,
+                };
+                // console.log(userInfo);
+
+                axios.post("/api/users/", userInfo).then((res) => {
+                  // console.log(res.data, "confirm??1");
+                  // confirm이 false이면 로컬스토리지 다 비우기,
                   // confirm이 true이면 state.userInfo를 바꾸기 + 로컬스토리지 세팅
-                  localStorage.setItem("userId", answer.userInfo.userId);
-                  localStorage.setItem("nickname", answer.userInfo.nickname);
-                  localStorage.setItem("email", answer.userInfo.email);
-                  state.userInfo.userId = answer.userInfo.userId;
-                  state.userInfo.email = answer.userInfo.email;
-                  state.userInfo.nickname = answer.userInfo.nickname;
-                } else {
-                  removeUserInfo();
-                }
-              });
-            } else {
-              removeUserInfo();
-              console.log("not login");
+                  const answer = JSON.parse(res.data);
+
+                  if (answer.confirm) {
+                    // confirm이 true이면 state.userInfo를 바꾸기 + 로컬스토리지 세팅
+                    localStorage.setItem("userId", answer.userInfo.userId);
+                    localStorage.setItem("nickname", answer.userInfo.nickname);
+                    localStorage.setItem("email", answer.userInfo.email);
+                    state.userInfo.userId = answer.userInfo.userId;
+                    state.userInfo.email = answer.userInfo.email;
+                    state.userInfo.nickname = answer.userInfo.nickname;
+                  } else {
+                    // console.log(res.data, "confirm??2");
+
+                    // console.log("not login1");
+                    removeUserInfo();
+                  }
+                });
+              } else {
+                removeUserInfo();
+                // console.log("not login2");
+              }
+            } catch (err) {
+              console.error(err.message);
             }
-          } catch (err) {
-            console.error(err.message);
-          }
-        }, 100);
+          }, 100);
+        }
       },
       loadingFunctionStart: () => {
         state.isLoading = true;

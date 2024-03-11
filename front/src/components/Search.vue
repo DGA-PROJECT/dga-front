@@ -435,17 +435,11 @@ export default {
         top: 0,
         behavior: "smooth", // 부드러운 스크롤 적용 (선택적)
       });
-      console.log(mode.pgIdx);
-      console.log(mode.maxPgIdx);
       if (mode.pgIdx > mode.maxPgIdx) {
-        console.log(mode.pgIdx);
-        console.log(mode.maxPgIdx);
         props.modalFunction.warn("최대페이지에요");
         mode.pgIdx--;
       } else if (mode.pgIdx < -1) {
         props.modalFunction.warn("최소페이지에요");
-        console.log(mode.pgIdx, "페이지 인덱스");
-        console.log(idx, "그냥인덱스");
         mode.pgIdx = 0;
       } else {
         mode.pgIdx++;
@@ -518,8 +512,8 @@ export default {
 
     // const paging = (idx) => {};
 
-    console.log(router.currentRoute.value.path);
-    console.log(router.currentRoute.value.params); // router.currentRoute.value.params로 변경
+    // console.log(router.currentRoute.value.path);
+    // console.log(router.currentRoute.value.params); // router.currentRoute.value.params로 변경
 
     return {
       data,
