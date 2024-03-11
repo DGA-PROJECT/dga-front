@@ -127,7 +127,7 @@
         </div>
       </div>
     </div>
-
+    <!-- 
     <button class="btn btn-primary" v-on:click="testGet()">
       auth 백단 GET 테스트
     </button>
@@ -135,7 +135,7 @@
     <button class="btn btn-danger" v-on:click="testGetWithoutAuth()">
       auth 백단 GET 테스트 (authorization 없음)
     </button>
-    <!-- <div class="dev">
+    <div class="dev">
       <div class="forever">
         <button class="btn btn-primary" v-on:click="testGet()">
           search 백단 GET 테스트
@@ -549,9 +549,9 @@ export default {
       });
     };
 
-    // const redirectTest = () => {
-    //   window.location.href = "https://www.daddygo.vacations/signup";
-    // };
+    const redirectTest = () => {
+      window.location.href = "https://www.daddygo.vacations/signup";
+    };
 
     const envTest = () => {
       axios.get("/api/searches/envtest").then((res) => {
@@ -559,11 +559,11 @@ export default {
       });
     };
 
-    // const dbTest = () => {
-    //   axios.get("/api/users/dbtest").then((res) => {
-    //     alert(res.data);
-    //   });
-    // };
+    const dbTest = () => {
+      axios.get("/api/users/dbtest").then((res) => {
+        alert(res.data);
+      });
+    };
 
     return {
       state,
@@ -575,9 +575,9 @@ export default {
       goToLoginOrSignup,
       redirectToBoards,
       testGet,
-      // redirectTest,
+      redirectTest,
       envTest,
-      // dbTest,
+      dbTest,
       testLambda,
       clickLogOut,
       testGetWithoutAuth,
