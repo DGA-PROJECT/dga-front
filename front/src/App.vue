@@ -128,7 +128,7 @@
       </div>
     </div>
 
-    <!-- <button class="btn btn-primary" v-on:click="testGet()">
+    <button class="btn btn-primary" v-on:click="testGet()">
       auth 백단 GET 테스트
     </button>
 
@@ -145,7 +145,7 @@
           login 백단 환경변수 테스트
         </button>
 
-        <button class="btn btn-success" v-on:click="testLambda()">
+        <button class="btn btn-success" v-on:click="loadingLambda()">
           람다 테스트
         </button>
 
@@ -198,7 +198,7 @@
           </button>
         </div>
       </div>
-    </div> -->
+    </div>
 
     <div
       class="alertMessage normal_bg fadeInOutLoading"
@@ -274,16 +274,29 @@ export default {
       state.userInfo = {};
     };
 
+    const loadingLambda = () => {
+      axios
+        .get(
+          "https://b1mnag2yn8.execute-api.ap-northeast-2.amazonaws.com/default/muzzifuc"
+        )
+        .then((res) => {
+          if (res.data == "Hello from Muzzi Lambda!") {
+            //여기에 로딩 코드
+            state.isLoading = true;
+          } else {
+            console.log("무찌야 ㅠㅠ");
+          }
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    };
+
     const stateFunction = reactive({
       checkLogin: () => {
         const currentPath = window.location.pathname;
 
-        // 결과 출력
-        // console.log("현재 경로:", currentPath);
-
         if (currentPath !== "/success") {
-          // console.log("이메일", localStorage.getItem("email"));
-
           setTimeout(() => {
             try {
               const idToken = localStorage.getItem("idToken");
@@ -299,10 +312,8 @@ export default {
                   nickname,
                   userId,
                 };
-                // console.log(userInfo);
 
                 axios.post("/api/users/", userInfo).then((res) => {
-                  // console.log(res.data, "confirm??1");
                   // confirm이 false이면 로컬스토리지 다 비우기,
                   // confirm이 true이면 state.userInfo를 바꾸기 + 로컬스토리지 세팅
                   const answer = JSON.parse(res.data);
@@ -333,7 +344,7 @@ export default {
         }
       },
       loadingFunctionStart: () => {
-        state.isLoading = true;
+        loadingLambda();
       },
       loadingFunctionEnd: (time) => {
         setTimeout(() => {
@@ -511,19 +522,6 @@ export default {
       });
     };
 
-    const testLambda = () => {
-      axios
-        .get(
-          "https://b1mnag2yn8.execute-api.ap-northeast-2.amazonaws.com/default/muzzifuc"
-        )
-        .then((res) => {
-          alert(res.data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
-    };
-
     const goToLoginOrSignup = () => {
       // 개발 모드일 경우
       if (process.env.NODE_ENV == "development") {
@@ -589,9 +587,9 @@ export default {
       redirectTest,
       envTest,
       dbTest,
-      testLambda,
       clickLogOut,
       testGetWithoutAuth,
+      loadingLambda,
     };
   },
   watch: {
