@@ -128,7 +128,7 @@
       </div>
     </div>
 
-    <button class="btn btn-primary" v-on:click="testGet()">
+    <!-- <button class="btn btn-primary" v-on:click="testGet()">
       auth 백단 GET 테스트
     </button>
 
@@ -198,7 +198,7 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div
       class="alertMessage normal_bg fadeInOutLoading"

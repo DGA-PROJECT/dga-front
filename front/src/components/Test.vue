@@ -1,6 +1,9 @@
 <template>
   <div class="container">
-    <h1>test web</h1>
+    <img
+      src="https://dgafrontui.s3.ap-northeast-2.amazonaws.com/onlymb.jpg"
+      alt=""
+    />
   </div>
 </template>
 
