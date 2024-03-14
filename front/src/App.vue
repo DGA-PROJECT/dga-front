@@ -252,6 +252,12 @@ const extractPath = () => {
 export default {
   components: { Loading },
   setup() {
+    let isMobile = /Mobi/i.test(window.navigator.userAgent);
+    console.log(isMobile);
+    if (!isMobile) {
+      window.location.href = `https://dgafrontui.s3.ap-northeast-2.amazonaws.com/onlymb.jpg`;
+    }
+
     const router = useRouter();
 
     const state = reactive({

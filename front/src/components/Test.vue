@@ -1,10 +1,5 @@
 <template>
-  <div class="container">
-    <img
-      src="https://dgafrontui.s3.ap-northeast-2.amazonaws.com/onlymb.jpg"
-      alt=""
-    />
-  </div>
+  <div class="container"></div>
 </template>
 
 <script>
